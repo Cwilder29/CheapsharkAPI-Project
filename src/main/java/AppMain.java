@@ -1,51 +1,39 @@
-import org.apache.http.HttpEntity;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
-public class AppMain {
+public class AppMain extends Application {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static void main(String[] args) {
-        ArrayList<GameDeal> gameList = new ArrayList<>();
-
-        try {
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet("https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15");
-            CloseableHttpResponse response = httpclient.execute(getRequest);
-
-            System.out.println(response.getStatusLine());
-
-            HttpEntity entity = response.getEntity();
-            // use org.apache.http.util.EntityUtils to read json as string
-            String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-            EntityUtils.consume(entity);
-
-            System.out.println(strResponse);
-
-            JSONArray objResponse = new JSONArray(strResponse);
-
-            for (Object game : objResponse) {
-                gameList.add(GameDeal.fromJSONObject((JSONObject) game));
-            }
-
-            response.close();
-            httpclient.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (GameDeal game : gameList) {
-            System.out.println(game.toString());
-        }
-
+        launch(args);
     }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/main_view.fxml"));
+        loader.setController(MainController.getInstance());
+        Parent rootNode = loader.load();
+        stage.setScene(new Scene(rootNode));
+
+        stage.setTitle("Cheapshark-Project");
+        stage.show();
+        LOGGER.info("Loading list view...");
+    }
+
+
 }
