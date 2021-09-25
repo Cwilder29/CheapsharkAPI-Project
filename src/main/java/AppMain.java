@@ -10,10 +10,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class AppMain {
 
     public static void main(String[] args) {
+        ArrayList<GameDeal> gameList = new ArrayList<>();
+
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
             HttpGet getRequest = new HttpGet("https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15");
@@ -30,10 +33,19 @@ public class AppMain {
 
             JSONArray objResponse = new JSONArray(strResponse);
 
+            for (Object game : objResponse) {
+                gameList.add(GameDeal.fromJSONObject((JSONObject) game));
+            }
+
             response.close();
             httpclient.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        for (GameDeal game : gameList) {
+            System.out.println(game.toString());
+        }
+
     }
 }
