@@ -28,10 +28,18 @@ public class MainController implements Initializable {
 
         switch (screenType) {
             case GAMELIST:
-                ArrayList<GameDeal> games = new ArrayList<>();
+                ArrayList<GameDeal> games;
                 viewFileName = "/list_games.fxml";
                 games = GameListController.getGameDeals();
                 controller = new GameListController(games);
+                break;
+            case GAMEVIEW:
+                viewFileName = "/view_game.fxml";
+                if(!(args[0] instanceof GameDeal)) {
+                    throw new IllegalArgumentException("Invalid GameDeal object!" + args[0].toString());
+                }
+                controller = new GameViewController((GameDeal) args[0]);
+                break;
         }
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));
         loader.setController(controller);

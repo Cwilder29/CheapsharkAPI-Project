@@ -3,26 +3,25 @@ import org.json.JSONObject;
 public class GameDeal {
 
     private String title;
-    private int gameID;
     private float salePrice;
     private float normalPrice;
-    private int steamAppID;
+    private double savings;
+    private int metacriticRating;
+    private int steamRating;
 
-    public GameDeal(String title, int gameID, float salePrice, float normalPrice, int steamAppID) {
+    public GameDeal(String title, float salePrice, float normalPrice, double savings, int metacriticRating, int steamRating) {
         this.title = title;
-        this.gameID = gameID;
         this.salePrice = salePrice;
         this.normalPrice = normalPrice;
-        this.steamAppID = steamAppID;
-    }
-
-    public GameDeal(String title) {
-        this.title = title;
+        this.savings = savings;
+        this.metacriticRating = metacriticRating;
+        this.steamRating = steamRating;
     }
 
     public static GameDeal fromJSONObject(JSONObject json) {
         try {
-            GameDeal gameDeal = new GameDeal(json.getString("title"));
+            GameDeal gameDeal = new GameDeal(json.getString("title"), json.getFloat("salePrice"), json.getFloat("normalPrice"),
+                     json.getDouble("savings"), json.getInt("metacriticScore"), json.getInt("steamRatingPercent"));
             return gameDeal;
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
@@ -43,14 +42,6 @@ public class GameDeal {
         this.title = title;
     }
 
-    public int getGameID() {
-        return gameID;
-    }
-
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
-    }
-
     public float getSalePrice() {
         return salePrice;
     }
@@ -67,11 +58,27 @@ public class GameDeal {
         this.normalPrice = normalPrice;
     }
 
-    public int getSteamAppID() {
-        return steamAppID;
+    public double getSavings() {
+        return savings;
     }
 
-    public void setSteamAppID(int steamAppID) {
-        this.steamAppID = steamAppID;
+    public void setSavings(double savings) {
+        this.savings = savings;
+    }
+
+    public int getMetacriticRating() {
+        return metacriticRating;
+    }
+
+    public void setMetacriticRating(int metacriticRating) {
+        this.metacriticRating = metacriticRating;
+    }
+
+    public int getSteamRating() {
+        return steamRating;
+    }
+
+    public void setSteamRating(int steamRating) {
+        this.steamRating = steamRating;
     }
 }

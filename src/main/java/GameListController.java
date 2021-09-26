@@ -3,6 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -30,6 +31,18 @@ public class GameListController implements Initializable, MyController {
 
     public GameListController(ArrayList<GameDeal> gameList) {
         this.games = gameList;
+    }
+
+    @FXML
+    void clickGame(MouseEvent event) {
+        GameDeal selectedGame;
+        if (event.getClickCount() == 2) {
+            selectedGame = gameList.getSelectionModel().getSelectedItem();
+            if (selectedGame != null) {
+                LOGGER.info("READING <" + selectedGame.getTitle() + ">");
+                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame);
+            }
+        }
     }
 
     public static ArrayList<GameDeal> getGameDeals() {
@@ -74,6 +87,5 @@ public class GameListController implements Initializable, MyController {
 
         // 2. plug the observable array list into the list
         gameList.setItems(tempList);
-        getGameDeals();
     }
 }
