@@ -3,14 +3,16 @@ import org.json.JSONObject;
 public class GameDeal {
 
     private String title;
+    private String dealId;
     private float salePrice;
     private float normalPrice;
     private double savings;
     private int metacriticRating;
     private int steamRating;
 
-    public GameDeal(String title, float salePrice, float normalPrice, double savings, int metacriticRating, int steamRating) {
+    public GameDeal(String title, String dealId, float salePrice, float normalPrice, double savings, int metacriticRating, int steamRating) {
         this.title = title;
+        this.dealId = dealId;
         this.salePrice = salePrice;
         this.normalPrice = normalPrice;
         this.savings = savings;
@@ -20,7 +22,7 @@ public class GameDeal {
 
     public static GameDeal fromJSONObject(JSONObject json) {
         try {
-            GameDeal gameDeal = new GameDeal(json.getString("title"), json.getFloat("salePrice"), json.getFloat("normalPrice"),
+            GameDeal gameDeal = new GameDeal(json.getString("title"), json.getString("dealID"), json.getFloat("salePrice"), json.getFloat("normalPrice"),
                      json.getDouble("savings"), json.getInt("metacriticScore"), json.getInt("steamRatingPercent"));
             return gameDeal;
         } catch (Exception e) {
@@ -40,6 +42,14 @@ public class GameDeal {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDealId() {
+        return dealId;
+    }
+
+    public void setDealId(String dealId) {
+        this.dealId = dealId;
     }
 
     public float getSalePrice() {
