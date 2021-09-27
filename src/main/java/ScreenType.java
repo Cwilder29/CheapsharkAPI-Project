@@ -1,3 +1,3 @@
 public enum ScreenType {
-    GAMELIST, GAMEVIEW
+    MAINMENU, GAMELIST, GAMEVIEW
 }

@@ -26,19 +26,36 @@ public class MainController implements Initializable {
         String viewFileName = "";
         MyController controller = null;
 
+        // TODO Find out a way to get a games steam ID
+        // TODO Add option to save games temporality to an ArrayList (option to view it)
+        // TODO Add a database to save a game's ID and to easily access later after app closes.
+        // TODO Add images to application
         switch (screenType) {
+            // TODO implement a main menu
+            // TODO add screen to search for a specific game based off title and/or steam ID
+            case MAINMENU:
+                viewFileName = "/main_menu.fxml";
+                controller = new MainMenuController();
+                break;
             case GAMELIST:
+                // TODO add store selection window before listing all game deals (current is Steam)
+                // TODO add option to change upperPrice limit (prices less than or equal)
+                // TODO add other options to configure
                 ArrayList<GameDeal> games;
                 viewFileName = "/list_games.fxml";
-                games = GameListController.getGameDeals();
-                controller = new GameListController(games);
+                if(!(args[0] instanceof Store)) {
+                    throw new IllegalArgumentException("Invalid Store object!" + args[0].toString());
+                }
+                controller = new GameListController((Store) args[0]);
                 break;
             case GAMEVIEW:
+                // TODO add a redirect link to the cheapshark website of the selected game
+                //      link would follow this format: https://www.cheapshark.com/redirect?dealID={id}
                 viewFileName = "/view_game.fxml";
                 if(!(args[0] instanceof GameDeal)) {
                     throw new IllegalArgumentException("Invalid GameDeal object!" + args[0].toString());
                 }
-                controller = new GameViewController((GameDeal) args[0]);
+                controller = new GameViewController((GameDeal) args[0], (Store) args[1]);
                 break;
         }
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));
@@ -54,7 +71,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        switchView(ScreenType.GAMELIST);
+        switchView(ScreenType.MAINMENU);
     }
 
     public static MainController getInstance() {

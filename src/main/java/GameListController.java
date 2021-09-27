@@ -24,13 +24,13 @@ import java.util.ResourceBundle;
 public class GameListController implements Initializable, MyController {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private ArrayList<GameDeal> games;
+    private final Store selectedStore;
 
     @FXML
     private ListView<GameDeal> gameList;
 
-    public GameListController(ArrayList<GameDeal> gameList) {
-        this.games = gameList;
+    public GameListController(Store selectedStore) {
+        this.selectedStore = selectedStore;
     }
 
     @FXML
@@ -39,28 +39,36 @@ public class GameListController implements Initializable, MyController {
         if (event.getClickCount() == 2) {
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
-                LOGGER.info("READING <" + selectedGame.getTitle() + ">");
-                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame);
+                LOGGER.info("Loading information on <" + selectedGame.getTitle() + ">");
+                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame, selectedStore);
             }
         }
     }
 
-    public static ArrayList<GameDeal> getGameDeals() {
+    public static ArrayList<GameDeal> getGameDeals(Store store) {
+        int statusCode;
         ArrayList<GameDeal> games = new ArrayList<>();
+        String url = "https://www.cheapshark.com/api/1.0/deals?";
+        String storeId = "storeID=" + store.getStoreId();
+        String upperPrice = "&upperPrice=15";
+
+        LOGGER.info("Selected store:" + store.getStoreName() + " (id:" + store.getStoreId() + ")");
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet("https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15");
+            HttpGet getRequest = new HttpGet(url + storeId + upperPrice);
             CloseableHttpResponse response = httpclient.execute(getRequest);
 
-            System.out.println(response.getStatusLine());
+            statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == 200)
+                LOGGER.info("Game deals successfully retrieved from CheapShark: " + statusCode);
+            else
+                LOGGER.error("Could not retrieve game deals from CheapShark: " + statusCode);
 
             HttpEntity entity = response.getEntity();
             // use org.apache.http.util.EntityUtils to read json as string
             String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
             EntityUtils.consume(entity);
-
-            System.out.println(strResponse);
 
             JSONArray objResponse = new JSONArray(strResponse);
 
@@ -83,6 +91,7 @@ public class GameListController implements Initializable, MyController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // 1. turn plain ol arraylist of models into an ObservableArrayList
+        ArrayList<GameDeal> games = getGameDeals(selectedStore);
         ObservableList<GameDeal> tempList = FXCollections.observableArrayList(games);
 
         // 2. plug the observable array list into the list
