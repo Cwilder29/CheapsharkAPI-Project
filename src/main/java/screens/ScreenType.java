@@ -1,5 +1,5 @@
 package screens;
 
 public enum ScreenType {
-    MAINMENU, GAMELIST, GAMEVIEW
+    MAINMENU, DEAL_PARAMETERS, GAMELIST, GAMEVIEW
 }

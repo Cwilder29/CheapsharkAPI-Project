@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class MainMenuController implements Initializable, MyController {
+public class DealParametersController implements Initializable, MyController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML
@@ -29,7 +29,7 @@ public class MainMenuController implements Initializable, MyController {
     private ArrayList<Store> stores = new ArrayList<>();
     private DealParameters dealParameters = new DealParameters();
 
-    public MainMenuController() {
+    public DealParametersController() {
     }
 
     @FXML

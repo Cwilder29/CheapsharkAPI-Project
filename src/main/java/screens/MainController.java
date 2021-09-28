@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -33,8 +32,12 @@ public class MainController implements Initializable {
 
         switch (screenType) {
             case MAINMENU:
-                viewFileName = "/main_menu.fxml";
-                controller = new MainMenuController();
+                viewFileName = "/menu.fxml";
+                controller = new MenuController();
+                break;
+            case DEAL_PARAMETERS:
+                viewFileName = "/deal_parameters.fxml";
+                controller = new DealParametersController();
                 break;
             case GAMELIST:
                 viewFileName = "/list_games.fxml";

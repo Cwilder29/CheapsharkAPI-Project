@@ -2,12 +2,14 @@ package screens;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import model.DealParameters;
 import model.GameDeal;
+import model.Sort;
 import model.Store;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -35,6 +37,7 @@ public class GameListController implements Initializable, MyController {
     @FXML
     private ListView<GameDeal> gameList;
 
+
     public GameListController(Store selectedStore, DealParameters dealParameters) {
         this.selectedStore = selectedStore;
         this.dealParameters = dealParameters;
@@ -52,14 +55,27 @@ public class GameListController implements Initializable, MyController {
         }
     }
 
+    @FXML
+    void newSearch(ActionEvent event) {
+        MainController.getInstance().switchView(ScreenType.DEAL_PARAMETERS);
+    }
+
+    @FXML
+    void exit(ActionEvent event) {
+        MainController.getInstance().switchView(ScreenType.MAINMENU);
+    }
+
     public static ArrayList<GameDeal> getGameDeals(Store store, DealParameters dealParameters) {
         int statusCode;
         ArrayList<GameDeal> games = new ArrayList<>();
         String url = "https://www.cheapshark.com/api/1.0/deals?";
         String storeId = "storeID=" + store.getStoreId();
         String upperPrice = "&upperPrice=" + dealParameters.getUpperPrice();
-        String sortBy = "&sortBy=" + dealParameters.getSortBy().getSortName();
-
+        String sortBy;
+        if(!(dealParameters.getSortBy().equals(Sort.DEAL_RATING)))
+            sortBy = "&sortBy=" + dealParameters.getSortBy().getSortName();
+        else
+            sortBy = "";
         LOGGER.info("Selected store:" + store.getStoreName() + " (id:" + store.getStoreId() + ")");
 
         try {
