@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import model.DealParameters;
+import model.Sort;
 import model.Store;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,8 @@ public class MainMenuController implements Initializable, MyController {
     private ChoiceBox<String> storeSelection;
     @FXML
     private TextField priceSelection;
+    @FXML
+    private ChoiceBox<String> sortSelection;
 
     private ArrayList<Store> stores = new ArrayList<>();
     private DealParameters dealParameters = new DealParameters();
@@ -32,6 +35,7 @@ public class MainMenuController implements Initializable, MyController {
     @FXML
     void loadDeals(ActionEvent event) {
         String storeName = storeSelection.getSelectionModel().getSelectedItem();
+        String sortType = sortSelection.getSelectionModel().getSelectedItem();
 
         if (storeSelection.getSelectionModel().getSelectedItem() == null) {
             LOGGER.error("No store selected!");
@@ -54,6 +58,14 @@ public class MainMenuController implements Initializable, MyController {
             return;
         }
 
+        for (Sort sort : Sort.values()) {
+            if (sort.getSortName().equals(sortType)) {
+                dealParameters.setSortBy(sort);
+                LOGGER.info("Sorting by: " + sort.getSortName());
+                break;
+            }
+        }
+
         for (Store selectedStore : stores) {
             if (storeName.equals(selectedStore.getStoreName())) {
                 LOGGER.info("Loading deals from " + selectedStore.getStoreName() + "...");
@@ -68,6 +80,10 @@ public class MainMenuController implements Initializable, MyController {
             stores.add(store);
             storeSelection.getItems().add(store.getStoreName());
         }
+        for (Sort sortType : Sort.values()) {
+            sortSelection.getItems().add(sortType.getSortName());
+        }
         storeSelection.getSelectionModel().selectFirst();
+        sortSelection.getSelectionModel().selectFirst();
     }
 }

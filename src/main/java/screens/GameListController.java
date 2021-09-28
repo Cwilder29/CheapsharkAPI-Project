@@ -58,12 +58,13 @@ public class GameListController implements Initializable, MyController {
         String url = "https://www.cheapshark.com/api/1.0/deals?";
         String storeId = "storeID=" + store.getStoreId();
         String upperPrice = "&upperPrice=" + dealParameters.getUpperPrice();
+        String sortBy = "&sortBy=" + dealParameters.getSortBy().getSortName();
 
         LOGGER.info("Selected store:" + store.getStoreName() + " (id:" + store.getStoreId() + ")");
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(url + storeId + upperPrice);
+            HttpGet getRequest = new HttpGet(url + storeId + upperPrice + sortBy);
             CloseableHttpResponse response = httpclient.execute(getRequest);
 
             statusCode = response.getStatusLine().getStatusCode();

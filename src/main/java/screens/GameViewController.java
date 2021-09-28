@@ -70,6 +70,4 @@ public class GameViewController implements Initializable, MyController {
         fxMetacritic.setText(String.valueOf(gameDeal.getMetacriticRating()));
         fxSteam.setText(String.valueOf(gameDeal.getSteamRating()));
     }
-
-
 }
