@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import model.DealParameters;
 import model.GameDeal;
 import model.Store;
 import org.apache.http.HttpEntity;
@@ -29,12 +30,14 @@ public class GameListController implements Initializable, MyController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final Store selectedStore;
+    private final DealParameters dealParameters;
 
     @FXML
     private ListView<GameDeal> gameList;
 
-    public GameListController(Store selectedStore) {
+    public GameListController(Store selectedStore, DealParameters dealParameters) {
         this.selectedStore = selectedStore;
+        this.dealParameters = dealParameters;
     }
 
     @FXML
@@ -44,17 +47,17 @@ public class GameListController implements Initializable, MyController {
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
                 LOGGER.info("Loading information on <" + selectedGame.getTitle() + ">");
-                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame, selectedStore);
+                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame, selectedStore, dealParameters);
             }
         }
     }
 
-    public static ArrayList<GameDeal> getGameDeals(Store store) {
+    public static ArrayList<GameDeal> getGameDeals(Store store, DealParameters dealParameters) {
         int statusCode;
         ArrayList<GameDeal> games = new ArrayList<>();
         String url = "https://www.cheapshark.com/api/1.0/deals?";
         String storeId = "storeID=" + store.getStoreId();
-        String upperPrice = "&upperPrice=15";
+        String upperPrice = "&upperPrice=" + dealParameters.getUpperPrice();
 
         LOGGER.info("Selected store:" + store.getStoreName() + " (id:" + store.getStoreId() + ")");
 
@@ -95,7 +98,7 @@ public class GameListController implements Initializable, MyController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // 1. turn plain ol arraylist of models into an ObservableArrayList
-        ArrayList<GameDeal> games = getGameDeals(selectedStore);
+        ArrayList<GameDeal> games = getGameDeals(selectedStore, dealParameters);
         ObservableList<GameDeal> tempList = FXCollections.observableArrayList(games);
 
         // 2. plug the observable array list into the list

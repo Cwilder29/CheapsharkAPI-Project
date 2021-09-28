@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.DealParameters;
 import model.GameDeal;
 import model.Store;
 import org.apache.logging.log4j.LogManager;
@@ -37,15 +38,17 @@ public class GameViewController implements Initializable, MyController {
 
     private GameDeal gameDeal;
     private Store store;
+    private DealParameters dealParameters;
 
-    public GameViewController(GameDeal gameDeal, Store store) {
+    public GameViewController(GameDeal gameDeal, Store store, DealParameters dealParameters) {
         this.gameDeal = gameDeal;
         this.store = store;
+        this.dealParameters = dealParameters;
     }
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.GAMELIST, store);
+        MainController.getInstance().switchView(ScreenType.GAMELIST, store, dealParameters);
     }
 
     @FXML

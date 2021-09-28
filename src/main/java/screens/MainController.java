@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import model.DealParameters;
 import model.GameDeal;
 import model.Store;
 import org.apache.logging.log4j.LogManager;
@@ -40,14 +41,14 @@ public class MainController implements Initializable {
                 if(!(args[0] instanceof Store)) {
                     throw new IllegalArgumentException("Invalid model.Store object!" + args[0].toString());
                 }
-                controller = new GameListController((Store) args[0]);
+                controller = new GameListController((Store) args[0], (DealParameters) args[1]);
                 break;
             case GAMEVIEW:
                 viewFileName = "/view_game.fxml";
                 if(!(args[0] instanceof GameDeal)) {
                     throw new IllegalArgumentException("Invalid model.GameDeal object!" + args[0].toString());
                 }
-                controller = new GameViewController((GameDeal) args[0], (Store) args[1]);
+                controller = new GameViewController((GameDeal) args[0], (Store) args[1], (DealParameters) args[2]);
                 break;
         }
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));
