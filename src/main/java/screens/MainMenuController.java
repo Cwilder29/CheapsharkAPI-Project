@@ -1,3 +1,5 @@
+package screens;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
@@ -5,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import model.Store;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class MainMenuController implements Initializable, MyController{
+public class MainMenuController implements Initializable, MyController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML

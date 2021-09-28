@@ -1,8 +1,12 @@
+package screens;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import model.GameDeal;
+import model.Store;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,19 +36,16 @@ public class MainController implements Initializable {
                 controller = new MainMenuController();
                 break;
             case GAMELIST:
-                ArrayList<GameDeal> games;
                 viewFileName = "/list_games.fxml";
                 if(!(args[0] instanceof Store)) {
-                    throw new IllegalArgumentException("Invalid Store object!" + args[0].toString());
+                    throw new IllegalArgumentException("Invalid model.Store object!" + args[0].toString());
                 }
                 controller = new GameListController((Store) args[0]);
                 break;
             case GAMEVIEW:
-                // TODO add a redirect link to the cheapshark website of the selected game
-                //      link would follow this format: https://www.cheapshark.com/redirect?dealID={id}
                 viewFileName = "/view_game.fxml";
                 if(!(args[0] instanceof GameDeal)) {
-                    throw new IllegalArgumentException("Invalid GameDeal object!" + args[0].toString());
+                    throw new IllegalArgumentException("Invalid model.GameDeal object!" + args[0].toString());
                 }
                 controller = new GameViewController((GameDeal) args[0], (Store) args[1]);
                 break;

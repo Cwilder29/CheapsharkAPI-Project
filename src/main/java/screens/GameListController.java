@@ -1,9 +1,13 @@
+package screens;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import model.GameDeal;
+import model.Store;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -82,7 +86,7 @@ public class GameListController implements Initializable, MyController {
             e.printStackTrace();
         }
 
-//        for (GameDeal game : gameList) {
+//        for (model.GameDeal game : gameList) {
 //            System.out.println(game.toString());
 //        }
         return games;

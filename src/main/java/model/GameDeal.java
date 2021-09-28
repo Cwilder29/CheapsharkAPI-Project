@@ -1,3 +1,5 @@
+package model;
+
 import org.json.JSONObject;
 
 public class GameDeal {
