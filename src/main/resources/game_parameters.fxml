@@ -14,7 +14,7 @@
          <children>
             <TextField fx:id="titleSearch" layoutX="278.0" layoutY="175.0" />
             <Label layoutX="168.0" layoutY="179.0" text="Enter Game Title" />
-            <Button layoutX="534.0" layoutY="361.0" mnemonicParsing="false" onAction="#search" text="Search" />
+            <Button defaultButton="true" layoutX="534.0" layoutY="361.0" mnemonicParsing="false" onAction="#search" text="Search" />
             <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#exit" text="Main Menu" />
             <Label layoutX="189.0" layoutY="14.0" text="Search by Game Title">
                <font>

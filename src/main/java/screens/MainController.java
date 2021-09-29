@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import model.DealParameters;
+import model.Game;
 import model.GameDeal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +46,7 @@ public class MainController implements Initializable {
             case DEAL_LIST:
                 viewFileName = "/list_deals.fxml";
                 if(!(args[0] instanceof DealParameters)) {
-                    throw new IllegalArgumentException("Invalid model. Store object! " + args[0].toString());
+                    throw new IllegalArgumentException("Invalid model. model.Store object! " + args[0].toString());
                 }
                 controller = new DealListController((DealParameters) args[0]);
                 break;
@@ -62,6 +63,13 @@ public class MainController implements Initializable {
                     throw new IllegalArgumentException("Invalid model. String!" + args[0].toString());
                 }
                 controller = new GameListController((String) args[0]);
+                break;
+            case VIEW_GAME:
+                viewFileName = "/view_game.fxml";
+                if(!(args[0] instanceof Game)) {
+                    throw new IllegalArgumentException("Invalid model. String!" + args[0].toString());
+                }
+                controller = new GameViewController((Game) args[0]);
                 break;
         }
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));

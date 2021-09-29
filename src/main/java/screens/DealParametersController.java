@@ -11,7 +11,6 @@ import model.Sort;
 import model.Store;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -77,10 +76,12 @@ public class DealParametersController implements Initializable, MyController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for (Store store : Store.values()) {
-            stores.add(store);
+        stores = RetrieveStores.retrieveStores();
+
+        for (Store store : stores) {
             storeSelection.getItems().add(store.getStoreName());
         }
+
         for (Sort sortType : Sort.values()) {
             sortSelection.getItems().add(sortType.getSortName());
         }

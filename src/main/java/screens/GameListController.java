@@ -54,7 +54,10 @@ public class GameListController implements Initializable, MyController{
             if (statusCode == 200)
                 LOGGER.info("Games successfully retrieved from CheapShark: " + statusCode);
             else
+            {
                 LOGGER.error("Could not retrieve games from CheapShark: " + statusCode);
+                return;
+            }
 
             HttpEntity entity = response.getEntity();
             // use org.apache.http.util.EntityUtils to read json as string
@@ -74,6 +77,8 @@ public class GameListController implements Initializable, MyController{
         }
     }
 
+
+
     @FXML
     void clickGame(MouseEvent event) {
         Game selectedGame;
@@ -81,7 +86,7 @@ public class GameListController implements Initializable, MyController{
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
                 LOGGER.info("Loading information on <" + selectedGame + ">");
-
+                MainController.getInstance().switchView(ScreenType.VIEW_GAME, selectedGame);
             }
         }
     }
