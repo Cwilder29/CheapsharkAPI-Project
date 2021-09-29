@@ -14,7 +14,7 @@ public class MenuController implements Initializable, MyController{
 
     @FXML
     void listDeals(ActionEvent event) {
-        LOGGER.info("Selected to view list of all game deals.Loading parameters...");
+        LOGGER.info("Selected to view list of all game deals. Loading parameters...");
         MainController.getInstance().switchView(ScreenType.DEAL_PARAMETERS);
     }
 

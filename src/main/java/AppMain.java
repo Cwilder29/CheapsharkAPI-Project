@@ -33,7 +33,7 @@ public class AppMain extends Application {
 
         stage.setTitle("Cheapshark-Project");
         stage.show();
-        LOGGER.info("Loading list view...");
+        LOGGER.info("Start up complete.");
     }
 
 

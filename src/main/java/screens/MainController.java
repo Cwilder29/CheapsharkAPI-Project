@@ -41,17 +41,17 @@ public class MainController implements Initializable {
                 break;
             case GAMELIST:
                 viewFileName = "/list_games.fxml";
-                if(!(args[0] instanceof Store)) {
-                    throw new IllegalArgumentException("Invalid model.Store object!" + args[0].toString());
+                if(!(args[0] instanceof DealParameters)) {
+                    throw new IllegalArgumentException("Invalid model.Store object! " + args[0].toString());
                 }
-                controller = new GameListController((Store) args[0], (DealParameters) args[1]);
+                controller = new GameListController((DealParameters) args[0]);
                 break;
             case GAMEVIEW:
                 viewFileName = "/view_game.fxml";
                 if(!(args[0] instanceof GameDeal)) {
                     throw new IllegalArgumentException("Invalid model.GameDeal object!" + args[0].toString());
                 }
-                controller = new GameViewController((GameDeal) args[0], (Store) args[1], (DealParameters) args[2]);
+                controller = new GameViewController((GameDeal) args[0], (DealParameters) args[1]);
                 break;
         }
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));

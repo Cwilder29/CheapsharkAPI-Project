@@ -31,15 +31,13 @@ import java.util.ResourceBundle;
 public class GameListController implements Initializable, MyController {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final Store selectedStore;
     private final DealParameters dealParameters;
 
     @FXML
     private ListView<GameDeal> gameList;
 
 
-    public GameListController(Store selectedStore, DealParameters dealParameters) {
-        this.selectedStore = selectedStore;
+    public GameListController(DealParameters dealParameters) {
         this.dealParameters = dealParameters;
     }
 
@@ -50,7 +48,7 @@ public class GameListController implements Initializable, MyController {
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
                 LOGGER.info("Loading information on <" + selectedGame.getTitle() + ">");
-                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame, selectedStore, dealParameters);
+                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame, dealParameters);
             }
         }
     }
@@ -65,18 +63,18 @@ public class GameListController implements Initializable, MyController {
         MainController.getInstance().switchView(ScreenType.MAINMENU);
     }
 
-    public static ArrayList<GameDeal> getGameDeals(Store store, DealParameters dealParameters) {
+    public static ArrayList<GameDeal> getGameDeals(DealParameters dealParameters) {
         int statusCode;
         ArrayList<GameDeal> games = new ArrayList<>();
         String url = "https://www.cheapshark.com/api/1.0/deals?";
-        String storeId = "storeID=" + store.getStoreId();
+        String storeId = "storeID=" + dealParameters.getStore().getStoreId();
         String upperPrice = "&upperPrice=" + dealParameters.getUpperPrice();
         String sortBy;
         if(!(dealParameters.getSortBy().equals(Sort.DEAL_RATING)))
             sortBy = "&sortBy=" + dealParameters.getSortBy().getSortName();
         else
             sortBy = "";
-        LOGGER.info("Selected store:" + store.getStoreName() + " (id:" + store.getStoreId() + ")");
+        LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -115,7 +113,7 @@ public class GameListController implements Initializable, MyController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // 1. turn plain ol arraylist of models into an ObservableArrayList
-        ArrayList<GameDeal> games = getGameDeals(selectedStore, dealParameters);
+        ArrayList<GameDeal> games = getGameDeals(dealParameters);
         ObservableList<GameDeal> tempList = FXCollections.observableArrayList(games);
 
         // 2. plug the observable array list into the list

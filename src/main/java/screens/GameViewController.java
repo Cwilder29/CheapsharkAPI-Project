@@ -37,18 +37,16 @@ public class GameViewController implements Initializable, MyController {
     private TextField fxSteam;
 
     private GameDeal gameDeal;
-    private Store store;
     private DealParameters dealParameters;
 
-    public GameViewController(GameDeal gameDeal, Store store, DealParameters dealParameters) {
+    public GameViewController(GameDeal gameDeal, DealParameters dealParameters) {
         this.gameDeal = gameDeal;
-        this.store = store;
         this.dealParameters = dealParameters;
     }
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.GAMELIST, store, dealParameters);
+        MainController.getInstance().switchView(ScreenType.GAMELIST, dealParameters);
     }
 
     @FXML
