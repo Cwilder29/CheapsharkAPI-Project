@@ -20,7 +20,8 @@ public class MenuController implements Initializable, MyController{
 
     @FXML
     void searchGame(ActionEvent event) {
-        LOGGER.info("Search by game title not yet implemented!");
+        LOGGER.info("Selected to search by game title. Loading parameters...");
+        MainController.getInstance().switchView(ScreenType.GAME_PARAMETERS);
     }
 
     @Override

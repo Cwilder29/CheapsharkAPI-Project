@@ -70,7 +70,7 @@ public class DealParametersController implements Initializable, MyController {
             if (storeName.equals(selectedStore.getStoreName())) {
                 dealParameters.setStore(selectedStore);
                 LOGGER.info("Loading deals from " + selectedStore.getStoreName() + "...");
-                MainController.getInstance().switchView(ScreenType.GAMELIST, dealParameters);
+                MainController.getInstance().switchView(ScreenType.DEAL_LIST, dealParameters);
             }
         }
     }

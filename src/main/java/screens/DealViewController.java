@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GameViewController implements Initializable, MyController {
+public class DealViewController implements Initializable, MyController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML
@@ -39,14 +39,14 @@ public class GameViewController implements Initializable, MyController {
     private GameDeal gameDeal;
     private DealParameters dealParameters;
 
-    public GameViewController(GameDeal gameDeal, DealParameters dealParameters) {
+    public DealViewController(GameDeal gameDeal, DealParameters dealParameters) {
         this.gameDeal = gameDeal;
         this.dealParameters = dealParameters;
     }
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.GAMELIST, dealParameters);
+        MainController.getInstance().switchView(ScreenType.DEAL_LIST, dealParameters);
     }
 
     @FXML

@@ -8,9 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import model.DealParameters;
+import model.Game;
 import model.GameDeal;
-import model.Sort;
-import model.Store;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -28,64 +27,34 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class GameListController implements Initializable, MyController {
+public class GameListController implements Initializable, MyController{
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final DealParameters dealParameters;
-
     @FXML
-    private ListView<GameDeal> gameList;
+    private ListView<Game> gameList;
 
+    private String gameTitle;
+    private ArrayList<Game> games;
 
-    public GameListController(DealParameters dealParameters) {
-        this.dealParameters = dealParameters;
+    public GameListController(String gameTitle) {
+        this.gameTitle = gameTitle;
     }
 
-    @FXML
-    void clickGame(MouseEvent event) {
-        GameDeal selectedGame;
-        if (event.getClickCount() == 2) {
-            selectedGame = gameList.getSelectionModel().getSelectedItem();
-            if (selectedGame != null) {
-                LOGGER.info("Loading information on <" + selectedGame.getTitle() + ">");
-                MainController.getInstance().switchView(ScreenType.GAMEVIEW, selectedGame, dealParameters);
-            }
-        }
-    }
-
-    @FXML
-    void newSearch(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.DEAL_PARAMETERS);
-    }
-
-    @FXML
-    void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.MAINMENU);
-    }
-
-    public static ArrayList<GameDeal> getGameDeals(DealParameters dealParameters) {
+    public void getGameDeals() {
         int statusCode;
-        ArrayList<GameDeal> games = new ArrayList<>();
-        String url = "https://www.cheapshark.com/api/1.0/deals?";
-        String storeId = "storeID=" + dealParameters.getStore().getStoreId();
-        String upperPrice = "&upperPrice=" + dealParameters.getUpperPrice();
-        String sortBy;
-        if(!(dealParameters.getSortBy().equals(Sort.DEAL_RATING)))
-            sortBy = "&sortBy=" + dealParameters.getSortBy().getSortName();
-        else
-            sortBy = "";
-        LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
+        this.games = new ArrayList<>();
+        String url = "https://www.cheapshark.com/api/1.0/games?title=" + this.gameTitle; //TODO check for spaces
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(url + storeId + upperPrice + sortBy);
+            HttpGet getRequest = new HttpGet(url);
             CloseableHttpResponse response = httpclient.execute(getRequest);
 
             statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200)
-                LOGGER.info("Game deals successfully retrieved from CheapShark: " + statusCode);
+                LOGGER.info("Games successfully retrieved from CheapShark: " + statusCode);
             else
-                LOGGER.error("Could not retrieve game deals from CheapShark: " + statusCode);
+                LOGGER.error("Could not retrieve games from CheapShark: " + statusCode);
 
             HttpEntity entity = response.getEntity();
             // use org.apache.http.util.EntityUtils to read json as string
@@ -95,7 +64,7 @@ public class GameListController implements Initializable, MyController {
             JSONArray objResponse = new JSONArray(strResponse);
 
             for (Object game : objResponse) {
-                games.add(GameDeal.fromJSONObject((JSONObject) game));
+                games.add(Game.fromJSONObject((JSONObject) game));
             }
 
             response.close();
@@ -103,18 +72,35 @@ public class GameListController implements Initializable, MyController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-//        for (model.GameDeal game : gameList) {
-//            System.out.println(game.toString());
-//        }
-        return games;
+    @FXML
+    void clickGame(MouseEvent event) {
+        Game selectedGame;
+        if (event.getClickCount() == 2) {
+            selectedGame = gameList.getSelectionModel().getSelectedItem();
+            if (selectedGame != null) {
+                LOGGER.info("Loading information on <" + selectedGame + ">");
+
+            }
+        }
+    }
+
+    @FXML
+    void exit(ActionEvent event) {
+        MainController.getInstance().switchView(ScreenType.MAINMENU);
+    }
+
+    @FXML
+    void newSearch(ActionEvent event) {
+        MainController.getInstance().switchView(ScreenType.GAME_PARAMETERS);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // 1. turn plain ol arraylist of models into an ObservableArrayList
-        ArrayList<GameDeal> games = getGameDeals(dealParameters);
-        ObservableList<GameDeal> tempList = FXCollections.observableArrayList(games);
+        getGameDeals();
+
+        ObservableList<Game> tempList = FXCollections.observableArrayList(games);
 
         // 2. plug the observable array list into the list
         gameList.setItems(tempList);
