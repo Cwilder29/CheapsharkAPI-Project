@@ -77,11 +77,24 @@ public class DealListController implements Initializable, MyController {
             sortBy = "&sortBy=" + dealParameters.getSortBy().getSortName();
         else
             sortBy = "";
+        String metacriticRating = "";
+        String steamRating = "&steamRating=" + dealParameters.getMetacriticRating();
+        if (dealParameters.getMetacriticRating() != 0) {
+            metacriticRating = "&metacritic=" + dealParameters.getMetacriticRating();
+            LOGGER.info("Minimum Metacritic rating set: " + dealParameters.getMetacriticRating());
+        }
+        if (dealParameters.getSteamRating() != 0) {
+            steamRating = "&steamRating=" + dealParameters.getSteamRating();
+            LOGGER.info("Minimum Steam rating set: " + dealParameters.getSteamRating());
+        }
+
+
         LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(url + storeId + upperPrice + sortBy);
+            HttpGet getRequest = new HttpGet(url + storeId + upperPrice + sortBy + metacriticRating + steamRating);
+            LOGGER.info(url + storeId + upperPrice + sortBy + metacriticRating + steamRating);
             CloseableHttpResponse response = httpclient.execute(getRequest);
 
             statusCode = response.getStatusLine().getStatusCode();

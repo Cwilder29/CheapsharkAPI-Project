@@ -143,7 +143,6 @@ public class DealParametersController implements Initializable, MyController {
         try {
             numRating = Integer.parseInt(rating);
             if (numRating >= 0 && numRating <= 100) {
-                LOGGER.info(ratingType + " set to: " + numRating);
                 return true;
             }
             else {
