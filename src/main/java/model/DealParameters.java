@@ -4,14 +4,11 @@ public class DealParameters {
     private Store store;
     private int upperPrice;
     private Sort sortBy;
+    private Boolean onlyAAA;
+    private int MetacriticRating;
+    private int SteamRating;
 
     public DealParameters() {
-    }
-
-    public DealParameters(Store store, int upperPrice, Sort sortBy) {
-        this.store = store;
-        this.upperPrice = upperPrice;
-        this.sortBy = sortBy;
     }
 
     //accessors
@@ -37,5 +34,29 @@ public class DealParameters {
 
     public void setSortBy(Sort sortBy) {
         this.sortBy = sortBy;
+    }
+
+    public Boolean getOnlyAAA() {
+        return onlyAAA;
+    }
+
+    public void setOnlyAAA(Boolean onlyAAA) {
+        this.onlyAAA = onlyAAA;
+    }
+
+    public int getMetacriticRating() {
+        return MetacriticRating;
+    }
+
+    public void setMetacriticRating(int minMetacriticRating) {
+        this.MetacriticRating = minMetacriticRating;
+    }
+
+    public int getSteamRating() {
+        return SteamRating;
+    }
+
+    public void setSteamRating(int minSteamRating) {
+        this.SteamRating = minSteamRating;
     }
 }
