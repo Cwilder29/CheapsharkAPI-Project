@@ -9,9 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import model.DealParameters;
-import model.GameDeal;
+import model.Deal;
 import model.Sort;
-import model.Store;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -38,8 +37,7 @@ public class DealListController implements Initializable, MyController {
     private final DealParameters dealParameters;
 
     @FXML
-    private ListView<GameDeal> gameList;
-
+    private ListView<Deal> gameList;
 
     public DealListController(DealParameters dealParameters) {
         this.dealParameters = dealParameters;
@@ -47,7 +45,7 @@ public class DealListController implements Initializable, MyController {
 
     @FXML
     void clickGame(MouseEvent event) {
-        GameDeal selectedGame;
+        Deal selectedGame;
         if (event.getClickCount() == 2) {
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
@@ -67,8 +65,8 @@ public class DealListController implements Initializable, MyController {
         MainController.getInstance().switchView(ScreenType.MAINMENU);
     }
 
-    public ArrayList<GameDeal> getGameDeals(DealParameters dealParameters) {
-        ArrayList<GameDeal> deals = new ArrayList<>();
+    public ArrayList<Deal> getDeals(DealParameters dealParameters) {
+        ArrayList<Deal> deals = new ArrayList<>();
         String url = createGetRequest();
 
         LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
@@ -91,11 +89,13 @@ public class DealListController implements Initializable, MyController {
             url = url + "&steamRating=" + dealParameters.getSteamRating();
             LOGGER.info("Minimum Steam rating set: " + dealParameters.getSteamRating());
         }
+        if (dealParameters.getOnlyAAA())
+            url = url + "&AAA=1";
 
         return url;
     }
 
-    private ArrayList<GameDeal> fetchDeals(ArrayList<GameDeal> deals, String url) {
+    private ArrayList<Deal> fetchDeals(ArrayList<Deal> deals, String url) {
         int statusCode;
 
         try {
@@ -121,7 +121,7 @@ public class DealListController implements Initializable, MyController {
             JSONArray objResponse = new JSONArray(strResponse);
 
             for (Object game : objResponse) {
-                deals.add(GameDeal.fromJSONObject((JSONObject) game));
+                deals.add(Deal.fromJSONObject((JSONObject) game));
             }
 
             response.close();
@@ -136,8 +136,8 @@ public class DealListController implements Initializable, MyController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // 1. turn plain ol arraylist of models into an ObservableArrayList
-        ArrayList<GameDeal> games = getGameDeals(dealParameters);
-        ObservableList<GameDeal> tempList = FXCollections.observableArrayList(games);
+        ArrayList<Deal> games = getDeals(dealParameters);
+        ObservableList<Deal> tempList = FXCollections.observableArrayList(games);
 
         // 2. plug the observable array list into the list
         gameList.setItems(tempList);

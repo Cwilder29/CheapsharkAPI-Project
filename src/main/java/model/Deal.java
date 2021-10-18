@@ -2,7 +2,7 @@ package model;
 
 import org.json.JSONObject;
 
-public class GameDeal {
+public class Deal {
 
     private String title;
     private String dealId;
@@ -12,7 +12,7 @@ public class GameDeal {
     private int metacriticRating;
     private int steamRating;
 
-    public GameDeal(String title, String dealId, float salePrice, float normalPrice, double savings, int metacriticRating, int steamRating) {
+    public Deal(String title, String dealId, float salePrice, float normalPrice, double savings, int metacriticRating, int steamRating) {
         this.title = title;
         this.dealId = dealId;
         this.salePrice = salePrice;
@@ -22,11 +22,11 @@ public class GameDeal {
         this.steamRating = steamRating;
     }
 
-    public static GameDeal fromJSONObject(JSONObject json) {
+    public static Deal fromJSONObject(JSONObject json) {
         try {
-            GameDeal gameDeal = new GameDeal(json.getString("title"), json.getString("dealID"), json.getFloat("salePrice"), json.getFloat("normalPrice"),
+            Deal deal = new Deal(json.getString("title"), json.getString("dealID"), json.getFloat("salePrice"), json.getFloat("normalPrice"),
                      json.getDouble("savings"), json.getInt("metacriticScore"), json.getInt("steamRatingPercent"));
-            return gameDeal;
+            return deal;
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
         }

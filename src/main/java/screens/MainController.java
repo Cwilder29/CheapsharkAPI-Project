@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import model.DealParameters;
 import model.Game;
-import model.GameDeal;
+import model.Deal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.list.DealListController;
@@ -58,10 +58,10 @@ public class MainController implements Initializable {
                 break;
             case DEAL_VIEW:
                 viewFileName = "/view_deal.fxml";
-                if(!(args[0] instanceof GameDeal)) {
+                if(!(args[0] instanceof Deal)) {
                     throw new IllegalArgumentException("Invalid model. GameDeal object!" + args[0].toString());
                 }
-                controller = new DealViewController((GameDeal) args[0], (DealParameters) args[1]);
+                controller = new DealViewController((Deal) args[0], (DealParameters) args[1]);
                 break;
             case GAME_LIST:
                 viewFileName = "/list_games.fxml";

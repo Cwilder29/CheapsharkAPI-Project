@@ -6,8 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.DealParameters;
-import model.GameDeal;
-import model.Store;
+import model.Deal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.MainController;
@@ -23,27 +22,22 @@ public class DealViewController implements Initializable, MyController {
 
     @FXML
     private Label fxTitle;
-
     @FXML
     private TextField fxSalePrice;
-
     @FXML
     private TextField fxNormalPrice;
-
     @FXML
     private TextField fxSaving;
-
     @FXML
     private TextField fxMetacritic;
-
     @FXML
     private TextField fxSteam;
 
-    private GameDeal gameDeal;
+    private Deal deal;
     private DealParameters dealParameters;
 
-    public DealViewController(GameDeal gameDeal, DealParameters dealParameters) {
-        this.gameDeal = gameDeal;
+    public DealViewController(Deal deal, DealParameters dealParameters) {
+        this.deal = deal;
         this.dealParameters = dealParameters;
     }
 
@@ -54,7 +48,7 @@ public class DealViewController implements Initializable, MyController {
 
     @FXML
     void viewDeal(ActionEvent event) {
-        String url = "https://www.cheapshark.com/redirect?dealID=" + gameDeal.getDealId();
+        String url = "https://www.cheapshark.com/redirect?dealID=" + deal.getDealId();
         try {
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
         } catch (IOException e) {
@@ -64,11 +58,11 @@ public class DealViewController implements Initializable, MyController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fxTitle.setText(gameDeal.getTitle());
-        fxSalePrice.setText(String.valueOf(gameDeal.getSalePrice()));
-        fxNormalPrice.setText(String.valueOf(gameDeal.getNormalPrice()));
-        fxSaving.setText(String.valueOf(gameDeal.getSavings()));
-        fxMetacritic.setText(String.valueOf(gameDeal.getMetacriticRating()));
-        fxSteam.setText(String.valueOf(gameDeal.getSteamRating()));
+        fxTitle.setText(deal.getTitle());
+        fxSalePrice.setText(String.valueOf(deal.getSalePrice()));
+        fxNormalPrice.setText(String.valueOf(deal.getNormalPrice()));
+        fxSaving.setText(String.valueOf(deal.getSavings()));
+        fxMetacritic.setText(String.valueOf(deal.getMetacriticRating()));
+        fxSteam.setText(String.valueOf(deal.getSteamRating()));
     }
 }
