@@ -49,14 +49,16 @@ public class GameViewController implements Initializable, MyController {
     private JSONObject gameDetails;
     private JSONArray gameDeals;
     private String dealId;
+    private String previousSearch;
 
-    public GameViewController(Game game) {
+    public GameViewController(Game game, String previousSearch) {
         this.game = game;
+        this.previousSearch = previousSearch;
     }
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.MAINMENU); //todo change to go back to game list controller
+        MainController.getInstance().switchView(ScreenType.GAME_LIST, previousSearch);
     }
 
     @FXML
@@ -134,11 +136,6 @@ public class GameViewController implements Initializable, MyController {
                 fxRetailPrice.setText(((JSONObject) dealSite).getString("retailPrice"));
                 fxSavings.setText(((JSONObject) dealSite).getString("savings"));
                 dealId = ((JSONObject) dealSite).getString("dealID");
-                LOGGER.info(storeName);
-                LOGGER.info(fxPrice.getText());
-                LOGGER.info(fxRetailPrice.getText());
-                LOGGER.info(fxSavings.getText());
-                LOGGER.info(dealId);
                 break;
             }
         }

@@ -52,30 +52,36 @@ public class MainController implements Initializable {
             case DEAL_LIST:
                 viewFileName = "/list_deals.fxml";
                 if(!(args[0] instanceof DealParameters)) {
-                    throw new IllegalArgumentException("Invalid model. model.Store object! " + args[0].toString());
+                    throw new IllegalArgumentException("Invalid model. Store object! " + args[0].toString());
                 }
                 controller = new DealListController((DealParameters) args[0]);
                 break;
             case DEAL_VIEW:
                 viewFileName = "/view_deal.fxml";
                 if(!(args[0] instanceof Deal)) {
-                    throw new IllegalArgumentException("Invalid model. GameDeal object!" + args[0].toString());
+                    throw new IllegalArgumentException("Invalid model. Deal object!" + args[0].toString());
+                }
+                else if(!(args[1] instanceof DealParameters)) {
+                    throw new IllegalArgumentException("Invalid model. DealParameter object!" + args[1].toString());
                 }
                 controller = new DealViewController((Deal) args[0], (DealParameters) args[1]);
                 break;
             case GAME_LIST:
                 viewFileName = "/list_games.fxml";
                 if(!(args[0] instanceof String)) {
-                    throw new IllegalArgumentException("Invalid model. String!" + args[0].toString());
+                    throw new IllegalArgumentException("Invalid String!" + args[0].toString());
                 }
                 controller = new GameListController((String) args[0]);
                 break;
             case VIEW_GAME:
                 viewFileName = "/view_game.fxml";
                 if(!(args[0] instanceof Game)) {
-                    throw new IllegalArgumentException("Invalid model. String!" + args[0].toString());
+                    throw new IllegalArgumentException("Invalid model. Game object!" + args[0].toString());
                 }
-                controller = new GameViewController((Game) args[0]);
+                else if(!(args[1] instanceof String)) {
+                    throw new IllegalArgumentException("Invalid String." + args[1].toString());
+                }
+                controller = new GameViewController((Game) args[0], (String) args[1]);
                 break;
         }
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));

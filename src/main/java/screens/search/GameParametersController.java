@@ -26,7 +26,7 @@ public class GameParametersController implements Initializable, MyController {
 
     @FXML
     void search(ActionEvent event) {
-        LOGGER.info(this.titleSearch.getText());
+        LOGGER.info(titleSearch.getText());
         MainController.getInstance().switchView(ScreenType.GAME_LIST, titleSearch.getText());
     }
 
