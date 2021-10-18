@@ -1,11 +1,10 @@
-package screens;
+package screens.search;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.Game;
@@ -20,6 +19,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import screens.MainController;
+import screens.MyController;
+import screens.RetrieveStores;
+import screens.ScreenType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +36,7 @@ public class GameViewController implements Initializable, MyController {
     @FXML
     private Label fxTitle;
     @FXML
-    private ChoiceBox<String> fxStore;
+    private ComboBox<String> fxStore;
     @FXML
     private TextField fxPrice;
     @FXML
@@ -42,7 +45,10 @@ public class GameViewController implements Initializable, MyController {
     private TextField fxSavings;
 
     private Game game;
+    private ArrayList<Store> stores;
     private JSONObject gameDetails;
+    private JSONArray gameDeals;
+    private String dealId;
 
     public GameViewController(Game game) {
         this.game = game;
@@ -56,6 +62,18 @@ public class GameViewController implements Initializable, MyController {
     @FXML
     void viewDeal(ActionEvent event) {
         LOGGER.info("Opening store website in default browser...");
+        String url = "https://www.cheapshark.com/redirect?dealID=" + dealId;
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        } catch (IOException e) {
+            LOGGER.error("Could not loud website: " + e);
+        }
+    }
+
+    @FXML
+    void changeStore(ActionEvent event) {
+        LOGGER.info("Loading new store info...");
+        getGamePrices();
     }
 
     public void viewGame (Game game) {
@@ -80,17 +98,7 @@ public class GameViewController implements Initializable, MyController {
             String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
             EntityUtils.consume(entity);
 
-            //LOGGER.info(strResponse);
-
-            //JSONObject objResponse = new JSONObject(strResponse);
             this.gameDetails = new JSONObject(strResponse);
-            //JSONObject infoResponse = new JSONObject(objResponse.getJSONObject("info").toString());
-            //JSONArray dealResponse = new JSONArray(objResponse.getJSONArray("deals"));
-
-            //LOGGER.info(objResponse.toString());
-            //LOGGER.info(objResponse.get("info"));
-            //LOGGER.info(objResponse.getJSONObject("info").toString());
-            //LOGGER.info(infoResponse.getString("title"));
 
             response.close();
             httpclient.close();
@@ -100,30 +108,58 @@ public class GameViewController implements Initializable, MyController {
     }
 
     private int getDealWebsite (JSONObject json) {
-        int storeId;
         try {
-            return storeId = json.getInt("storeID");
+            return json.getInt("storeID");
         } catch (Exception e) {
             System.out.println(e);
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
         }
     }
 
+    private void getGamePrices() {
+        String storeName = fxStore.getSelectionModel().getSelectedItem();
+        int storeId = -1;
+        LOGGER.info("New store selected:" + storeName);
+
+        for (Store store : stores) {
+            if (storeName.equals(store.getStoreName())) {
+                storeId = store.getStoreId();
+            }
+        }
+
+        for (Object dealSite : gameDeals) {
+            if (((JSONObject) dealSite).getInt("storeID") == storeId) {
+                LOGGER.info("Setting new price");
+                fxPrice.setText(((JSONObject) dealSite).getString("price"));
+                fxRetailPrice.setText(((JSONObject) dealSite).getString("retailPrice"));
+                fxSavings.setText(((JSONObject) dealSite).getString("savings"));
+                dealId = ((JSONObject) dealSite).getString("dealID");
+                LOGGER.info(storeName);
+                LOGGER.info(fxPrice.getText());
+                LOGGER.info(fxRetailPrice.getText());
+                LOGGER.info(fxSavings.getText());
+                LOGGER.info(dealId);
+                break;
+            }
+        }
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        JSONArray gameDeals;
-        ArrayList<Store> stores = RetrieveStores.retrieveStores();
+        this.stores = RetrieveStores.retrieveStores();
         int storeId;
 
         viewGame(this.game);
         JSONObject infoResponse = new JSONObject(gameDetails.getJSONObject("info").toString());
         this.fxTitle.setText(infoResponse.getString("title"));
-        gameDeals = new JSONArray(gameDetails.getJSONArray("deals").toString());
+        this.gameDeals = new JSONArray(gameDetails.getJSONArray("deals").toString());
+        LOGGER.info(gameDeals.toString());
 
-        for (Object dealSite : gameDeals) {
+        for (Object dealSite : this.gameDeals) {
             storeId = getDealWebsite((JSONObject) dealSite);
-            if (stores != null) {
-                for (Store store : stores) {
+            if (this.stores != null) {
+                for (Store store : this.stores) {
                     if (storeId == store.getStoreId()) {
                         fxStore.getItems().add(store.getStoreName());
                         break;
@@ -135,5 +171,6 @@ public class GameViewController implements Initializable, MyController {
         }
 
         fxStore.getSelectionModel().selectFirst();
+        getGamePrices();
     }
 }

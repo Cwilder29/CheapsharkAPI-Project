@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -20,14 +20,14 @@
                </font>
             </Label>
             <Hyperlink layoutX="259.0" layoutY="350.0" onAction="#viewDeal" prefHeight="23.0" prefWidth="105.0" text="View Deal Online" />
-            <ChoiceBox fx:id="fxStore" layoutX="237.0" layoutY="101.0" prefWidth="150.0" />
-            <TextField fx:id="fxPrice" layoutX="238.0" layoutY="169.0" />
-            <TextField fx:id="fxRetailPrice" layoutX="238.0" layoutY="235.0" />
-            <TextField fx:id="fxSavings" layoutX="237.0" layoutY="293.0" />
+            <TextField fx:id="fxPrice" editable="false" layoutX="238.0" layoutY="169.0" />
+            <TextField fx:id="fxRetailPrice" editable="false" layoutX="238.0" layoutY="235.0" />
+            <TextField fx:id="fxSavings" editable="false" layoutX="237.0" layoutY="293.0" />
             <Label layoutX="181.0" layoutY="105.0" text="Store" />
             <Label layoutX="182.0" layoutY="173.0" text="Price" />
             <Label layoutX="166.0" layoutY="239.0" text="Retail Price" />
             <Label layoutX="175.0" layoutY="297.0" text="Savings" />
+            <ComboBox fx:id="fxStore" layoutX="237.0" layoutY="101.0" onAction="#changeStore" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </center>

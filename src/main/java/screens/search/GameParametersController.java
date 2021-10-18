@@ -1,4 +1,4 @@
-package screens;
+package screens.search;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,6 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import screens.MainController;
+import screens.MyController;
+import screens.ScreenType;
 
 import java.net.URL;
 import java.util.ResourceBundle;

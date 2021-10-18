@@ -1,4 +1,4 @@
-package screens;
+package screens.list;
 
 import javafx.Alerts;
 import javafx.event.ActionEvent;
@@ -11,6 +11,11 @@ import model.Sort;
 import model.Store;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import screens.MainController;
+import screens.MyController;
+import screens.RetrieveStores;
+import screens.ScreenType;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;

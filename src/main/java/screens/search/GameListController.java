@@ -1,4 +1,4 @@
-package screens;
+package screens.search;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +20,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import screens.MainController;
+import screens.MyController;
+import screens.ScreenType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class GameListController implements Initializable, MyController{
+public class GameListController implements Initializable, MyController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML

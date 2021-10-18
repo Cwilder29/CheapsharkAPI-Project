@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="titleSearch" layoutX="278.0" layoutY="175.0" />
+            <TextField fx:id="titleSearch" layoutX="278.0" layoutY="175.0" text="batman" />
             <Label layoutX="168.0" layoutY="179.0" text="Enter Game Title" />
             <Button defaultButton="true" layoutX="534.0" layoutY="361.0" mnemonicParsing="false" onAction="#search" text="Search" />
             <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#exit" text="Main Menu" />
