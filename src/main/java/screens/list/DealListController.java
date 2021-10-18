@@ -1,5 +1,6 @@
 package screens.list;
 
+import javafx.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -66,42 +67,51 @@ public class DealListController implements Initializable, MyController {
         MainController.getInstance().switchView(ScreenType.MAINMENU);
     }
 
-    public static ArrayList<GameDeal> getGameDeals(DealParameters dealParameters) {
-        int statusCode;
-        ArrayList<GameDeal> games = new ArrayList<>();
-        String url = "https://www.cheapshark.com/api/1.0/deals?";
-        String storeId = "storeID=" + dealParameters.getStore().getStoreId();
-        String upperPrice = "&upperPrice=" + dealParameters.getUpperPrice();
-        String sortBy;
-        if(!(dealParameters.getSortBy().equals(Sort.DEAL_RATING)))
-            sortBy = "&sortBy=" + dealParameters.getSortBy().getSortName();
-        else
-            sortBy = "";
-        String metacriticRating = "";
-        String steamRating = "&steamRating=" + dealParameters.getMetacriticRating();
-        if (dealParameters.getMetacriticRating() != 0) {
-            metacriticRating = "&metacritic=" + dealParameters.getMetacriticRating();
-            LOGGER.info("Minimum Metacritic rating set: " + dealParameters.getMetacriticRating());
-        }
-        if (dealParameters.getSteamRating() != 0) {
-            steamRating = "&steamRating=" + dealParameters.getSteamRating();
-            LOGGER.info("Minimum Steam rating set: " + dealParameters.getSteamRating());
-        }
-
+    public ArrayList<GameDeal> getGameDeals(DealParameters dealParameters) {
+        ArrayList<GameDeal> deals = new ArrayList<>();
+        String url = createGetRequest();
 
         LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
 
+        return fetchDeals(deals, url);
+    }
+
+    private String createGetRequest() {
+        String url = "https://www.cheapshark.com/api/1.0/deals?";
+        url = url + "storeID=" + dealParameters.getStore().getStoreId();
+        url = url + "&upperPrice=" + dealParameters.getUpperPrice();
+        if(!(dealParameters.getSortBy().equals(Sort.DEAL_RATING)))
+            url = url + "&sortBy=" + dealParameters.getSortBy().getSortName();
+
+        if (dealParameters.getMetacriticRating() != 0) {
+            url = url + "&metacritic=" + dealParameters.getMetacriticRating();
+            LOGGER.info("Minimum Metacritic rating set: " + dealParameters.getMetacriticRating());
+        }
+        if (dealParameters.getSteamRating() != 0) {
+            url = url + "&steamRating=" + dealParameters.getSteamRating();
+            LOGGER.info("Minimum Steam rating set: " + dealParameters.getSteamRating());
+        }
+
+        return url;
+    }
+
+    private ArrayList<GameDeal> fetchDeals(ArrayList<GameDeal> deals, String url) {
+        int statusCode;
+
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(url + storeId + upperPrice + sortBy + metacriticRating + steamRating);
-            LOGGER.info(url + storeId + upperPrice + sortBy + metacriticRating + steamRating);
+            HttpGet getRequest = new HttpGet(url);
+            LOGGER.info("Connecting to:" + url);
             CloseableHttpResponse response = httpclient.execute(getRequest);
 
             statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200)
                 LOGGER.info("Game deals successfully retrieved from CheapShark: " + statusCode);
-            else
-                LOGGER.error("Could not retrieve game deals from CheapShark: " + statusCode);
+            else {
+                LOGGER.error("Could not retrieve deals from CheapShark: " + statusCode);
+                Alerts.infoAlert("Could not load deals!", "Could not retrieve deals from Cheapshark: " + statusCode);
+                return deals;
+            }
 
             HttpEntity entity = response.getEntity();
             // use org.apache.http.util.EntityUtils to read json as string
@@ -111,7 +121,7 @@ public class DealListController implements Initializable, MyController {
             JSONArray objResponse = new JSONArray(strResponse);
 
             for (Object game : objResponse) {
-                games.add(GameDeal.fromJSONObject((JSONObject) game));
+                deals.add(GameDeal.fromJSONObject((JSONObject) game));
             }
 
             response.close();
@@ -120,10 +130,7 @@ public class DealListController implements Initializable, MyController {
             e.printStackTrace();
         }
 
-//        for (model.GameDeal game : gameList) {
-//            System.out.println(game.toString());
-//        }
-        return games;
+        return deals;
     }
 
     @Override
