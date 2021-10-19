@@ -4,7 +4,6 @@ import javafx.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -21,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.MainController;
-import screens.MyController;
+import screens.SelectedController;
 import screens.RetrieveStores;
 import screens.ScreenType;
 
@@ -31,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class GameViewController implements Initializable, MyController {
+public class GameViewController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML

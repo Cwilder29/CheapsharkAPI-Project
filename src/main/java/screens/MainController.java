@@ -34,8 +34,9 @@ public class MainController implements Initializable {
 
     public void switchView(ScreenType screenType, Object... args) {
         String viewFileName = "";
-        MyController controller = null;
+        SelectedController controller = null;
 
+        // New class/method that returns controller
         switch (screenType) {
             case MAINMENU:
                 viewFileName = "/menu.fxml";

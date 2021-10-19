@@ -10,14 +10,14 @@ import model.Deal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.MainController;
-import screens.MyController;
+import screens.SelectedController;
 import screens.ScreenType;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DealViewController implements Initializable, MyController {
+public class DealViewController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML

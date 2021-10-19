@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MenuController implements Initializable, MyController{
+public class MenuController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML

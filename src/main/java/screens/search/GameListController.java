@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.MainController;
-import screens.MyController;
+import screens.SelectedController;
 import screens.ScreenType;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class GameListController implements Initializable, MyController {
+public class GameListController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML

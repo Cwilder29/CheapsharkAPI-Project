@@ -13,7 +13,7 @@ import model.Store;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.MainController;
-import screens.MyController;
+import screens.SelectedController;
 import screens.RetrieveStores;
 import screens.ScreenType;
 
@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class DealParametersController implements Initializable, MyController {
+public class DealParametersController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML
