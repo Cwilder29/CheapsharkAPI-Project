@@ -25,12 +25,12 @@
             <Button layoutX="263.0" layoutY="351.0" mnemonicParsing="false" onAction="#loadDeals" text="Load Deals" />
             <ChoiceBox fx:id="sortSelection" layoutX="271.0" layoutY="188.0" prefWidth="150.0" />
             <Label layoutX="190.0" layoutY="192.0" text="Sort List By" />
-            <Label layoutX="170.0" layoutY="310.0" text="Show only AAA" />
             <Label layoutX="166.0" layoutY="235.0" text="Metacritic Rating" />
             <Label layoutX="184.0" layoutY="275.0" text="Steam Rating" />
-            <CheckBox fx:id="onlyAAA" layoutX="284.0" layoutY="310.0" mnemonicParsing="false" />
             <TextField fx:id="metacriticRating" alignment="CENTER_RIGHT" layoutX="268.0" layoutY="231.0" prefHeight="25.0" prefWidth="66.0" promptText="Optional" />
             <TextField fx:id="steamRating" alignment="CENTER_RIGHT" layoutX="268.0" layoutY="271.0" prefHeight="25.0" prefWidth="66.0" promptText="Optional" />
+            <CheckBox fx:id="onlyAAA" layoutX="178.0" layoutY="310.0" mnemonicParsing="false" text="Only AAA Games" />
+            <CheckBox fx:id="onlySale" layoutX="315.0" layoutY="310.0" mnemonicParsing="false" text="Only Games on Sale" />
          </children>
       </AnchorPane>
    </center>

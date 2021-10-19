@@ -91,6 +91,8 @@ public class DealListController implements Initializable, MyController {
         }
         if (dealParameters.getOnlyAAA())
             url = url + "&AAA=1";
+        if (dealParameters.getOnlySale())
+            url = url + "&onSale=1";
 
         return url;
     }

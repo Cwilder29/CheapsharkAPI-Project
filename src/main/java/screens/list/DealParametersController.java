@@ -36,7 +36,8 @@ public class DealParametersController implements Initializable, MyController {
     private TextField steamRating;
     @FXML
     private CheckBox onlyAAA;
-
+    @FXML
+    private CheckBox onlySale;
 
     private ArrayList<Store> stores = new ArrayList<>();
     private DealParameters dealParameters = new DealParameters();
@@ -72,7 +73,10 @@ public class DealParametersController implements Initializable, MyController {
             return;
 
         // Set AAA Flag
-        setAAA();
+        showOnlyAAA();
+
+        // Set onSale Flag
+        showOnlySale();
 
         // Load user parameters for the selected store out of all possible stores
         for (Store selectedStore : stores) {
@@ -116,10 +120,8 @@ public class DealParametersController implements Initializable, MyController {
     private int setRating(TextField ratingTextField, String ratingName) {
         String minimumScore = ratingTextField.getText().replaceAll("\\s+","");
 
-        if (minimumScore.isEmpty()) {
-            LOGGER.info("No input for " + ratingName);
+        if (minimumScore.isEmpty())
             return 0;
-        }
 
         // Validate user input before setting value
         if (checkValidRating(minimumScore, ratingName)) {
@@ -157,15 +159,22 @@ public class DealParametersController implements Initializable, MyController {
         }
     }
 
-    private void setAAA() {
+    private void showOnlyAAA() {
         if (onlyAAA.isSelected()) {
             LOGGER.info("Search for only AAA is selected");
             dealParameters.setOnlyAAA(true);
         }
-        else {
-            LOGGER.info("Search for only AAA is NOT selected");
+        else
             dealParameters.setOnlyAAA(false);
+    }
+
+    private void showOnlySale() {
+        if (onlySale.isSelected()) {
+            LOGGER.info("Search only for games on sale selected");
+            dealParameters.setOnlySale(true);
         }
+        else
+            dealParameters.setOnlySale(false);
     }
 
     @Override

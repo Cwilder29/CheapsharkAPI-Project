@@ -5,6 +5,7 @@ public class DealParameters {
     private int upperPrice;
     private Sort sortBy;
     private Boolean onlyAAA;
+    private Boolean onlySale;
     private int MetacriticRating;
     private int SteamRating;
 
@@ -42,6 +43,14 @@ public class DealParameters {
 
     public void setOnlyAAA(Boolean onlyAAA) {
         this.onlyAAA = onlyAAA;
+    }
+
+    public Boolean getOnlySale() {
+        return onlySale;
+    }
+
+    public void setOnlySale(Boolean onlySale) {
+        this.onlySale = onlySale;
     }
 
     public int getMetacriticRating() {
