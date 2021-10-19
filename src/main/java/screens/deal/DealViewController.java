@@ -1,4 +1,4 @@
-package screens.list;
+package screens.deal;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.MainController;
 import screens.SelectedController;
-import screens.screentypes.ScreenType;
+import screens.screentypes.DealListScreen;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,7 +43,7 @@ public class DealViewController implements Initializable, SelectedController {
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.DEAL_LIST, dealParameters);
+        MainController.getInstance().switchView(new DealListScreen().getScreenController(dealParameters));
     }
 
     @FXML

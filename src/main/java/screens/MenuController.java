@@ -5,7 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import screens.screentypes.ScreenType;
+import screens.screentypes.DealParametersScreen;
+import screens.screentypes.GameParametersScreen;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,13 +17,13 @@ public class MenuController implements Initializable, SelectedController {
     @FXML
     void listDeals(ActionEvent event) {
         LOGGER.info("Selected to view list of all game deals. Loading parameters...");
-        MainController.getInstance().switchView(ScreenType.DEAL_PARAMETERS);
+        MainController.getInstance().switchView(new DealParametersScreen().getScreenController());
     }
 
     @FXML
     void searchGame(ActionEvent event) {
         LOGGER.info("Selected to search by game title. Loading parameters...");
-        MainController.getInstance().switchView(ScreenType.GAME_PARAMETERS);
+        MainController.getInstance().switchView(new GameParametersScreen().getScreenController());
     }
 
     @Override

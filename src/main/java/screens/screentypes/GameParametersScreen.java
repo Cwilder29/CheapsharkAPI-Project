@@ -2,13 +2,13 @@ package screens.screentypes;
 
 import javafx.fxml.FXMLLoader;
 import screens.SelectedController;
-import screens.search.GameParametersController;
+import screens.game.GameParametersController;
 
 public class GameParametersScreen implements Screen {
     @Override
-    public FXMLLoader getScreenController(String fileName, Object... args) {
+    public FXMLLoader getScreenController(Object... args) {
         SelectedController controller = null;
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource(fileName));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/game_parameters.fxml"));
 
         controller = new GameParametersController();
 

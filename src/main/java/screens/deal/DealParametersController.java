@@ -1,4 +1,4 @@
-package screens.list;
+package screens.deal;
 
 import javafx.Alerts;
 import javafx.event.ActionEvent;
@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import screens.MainController;
 import screens.SelectedController;
 import screens.RetrieveStores;
-import screens.screentypes.ScreenType;
+import screens.screentypes.DealListScreen;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class DealParametersController implements Initializable, SelectedControll
             if (storeName.equals(selectedStore.getStoreName())) {
                 dealParameters.setStore(selectedStore);
                 LOGGER.info("Loading deals from " + selectedStore.getStoreName() + "...");
-                MainController.getInstance().switchView(ScreenType.DEAL_LIST, dealParameters);
+                MainController.getInstance().switchView(new DealListScreen().getScreenController(dealParameters));
             }
         }
     }

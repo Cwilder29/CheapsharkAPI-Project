@@ -1,4 +1,4 @@
-package screens.search;
+package screens.game;
 
 import javafx.Alerts;
 import javafx.collections.FXCollections;
@@ -21,7 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
-import screens.screentypes.ScreenType;
+import screens.screentypes.GameParametersScreen;
+import screens.screentypes.GameViewScreen;
+import screens.screentypes.MainMenuScreen;
 
 import java.io.IOException;
 import java.net.URL;
@@ -86,19 +88,20 @@ public class GameListController implements Initializable, SelectedController {
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
                 LOGGER.info("Loading information on <" + selectedGame + ">");
-                MainController.getInstance().switchView(ScreenType.GAME_VIEW, selectedGame, gameTitle);
+                MainController.getInstance().switchView(new GameViewScreen().getScreenController(selectedGame, gameTitle));
+
             }
         }
     }
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.MAIN_MENU);
+        MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
     }
 
     @FXML
     void newSearch(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.GAME_PARAMETERS);
+        MainController.getInstance().switchView(new GameParametersScreen().getScreenController());
     }
 
     @Override

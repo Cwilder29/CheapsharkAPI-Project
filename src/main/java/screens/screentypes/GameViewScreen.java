@@ -3,13 +3,13 @@ package screens.screentypes;
 import javafx.fxml.FXMLLoader;
 import model.Game;
 import screens.SelectedController;
-import screens.search.GameViewController;
+import screens.game.GameViewController;
 
 public class GameViewScreen implements Screen {
     @Override
-    public FXMLLoader getScreenController(String fileName, Object... args) {
+    public FXMLLoader getScreenController(Object... args) {
         SelectedController controller = null;
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource(fileName));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/view_game.fxml"));
 
         if(!(args[0] instanceof Game)) {
             throw new IllegalArgumentException("Invalid model. Game object!" + args[0].toString());

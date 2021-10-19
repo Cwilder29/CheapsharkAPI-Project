@@ -1,4 +1,4 @@
-package screens.list;
+package screens.deal;
 
 import javafx.Alerts;
 import javafx.collections.FXCollections;
@@ -23,8 +23,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
-import screens.screentypes.ScreenType;
-
+import screens.screentypes.DealParametersScreen;
+import screens.screentypes.DealViewScreen;
+import screens.screentypes.MainMenuScreen;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -50,19 +51,19 @@ public class DealListController implements Initializable, SelectedController {
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
                 LOGGER.info("Loading information on <" + selectedGame.getTitle() + ">");
-                MainController.getInstance().switchView(ScreenType.DEAL_VIEW, selectedGame, dealParameters);
+                MainController.getInstance().switchView(new DealViewScreen().getScreenController(selectedGame, dealParameters));
             }
         }
     }
 
     @FXML
     void newSearch(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.DEAL_PARAMETERS);
+        MainController.getInstance().switchView(new DealParametersScreen().getScreenController());
     }
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.MAIN_MENU);
+        MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
     }
 
     public ArrayList<Deal> getDeals(DealParameters dealParameters) {

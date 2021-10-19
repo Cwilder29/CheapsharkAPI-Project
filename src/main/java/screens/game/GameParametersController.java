@@ -1,4 +1,4 @@
-package screens.search;
+package screens.game;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,7 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.MainController;
 import screens.SelectedController;
-import screens.screentypes.ScreenType;
+import screens.screentypes.GameListScreen;
+import screens.screentypes.MainMenuScreen;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,13 +22,14 @@ public class GameParametersController implements Initializable, SelectedControll
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.MAIN_MENU);
+        MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
     }
 
     @FXML
     void search(ActionEvent event) {
         LOGGER.info(titleSearch.getText());
-        MainController.getInstance().switchView(ScreenType.GAME_LIST, titleSearch.getText());
+        MainController.getInstance().switchView(new GameListScreen().getScreenController(titleSearch.getText()));
+
     }
 
     @Override

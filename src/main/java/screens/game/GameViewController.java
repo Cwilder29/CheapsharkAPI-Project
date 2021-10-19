@@ -1,4 +1,4 @@
-package screens.search;
+package screens.game;
 
 import javafx.Alerts;
 import javafx.event.ActionEvent;
@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
 import screens.RetrieveStores;
-import screens.screentypes.ScreenType;
+import screens.screentypes.GameListScreen;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,7 +59,7 @@ public class GameViewController implements Initializable, SelectedController {
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.GAME_LIST, previousSearch);
+        MainController.getInstance().switchView(new GameListScreen().getScreenController(previousSearch));
     }
 
     @FXML
