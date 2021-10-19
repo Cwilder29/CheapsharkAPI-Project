@@ -1,6 +1,5 @@
 package screens;
 
-import model.Game;
 import model.Store;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;

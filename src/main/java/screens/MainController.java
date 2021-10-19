@@ -5,14 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
-import model.DealParameters;
 import model.Game;
-import model.Deal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import screens.list.DealListController;
-import screens.list.DealParametersController;
-import screens.list.DealViewController;
+import screens.screenfiles.*;
+import screens.screentypes.*;
 import screens.search.GameListController;
 import screens.search.GameParametersController;
 import screens.search.GameViewController;
@@ -32,61 +29,40 @@ public class MainController implements Initializable {
     private MainController() {
     }
 
+    // TODO Change from passing in screenType to ScreenFile implemented class object !!!!
     public void switchView(ScreenType screenType, Object... args) {
         String viewFileName = "";
         SelectedController controller = null;
+        FXMLLoader loader = null; // TODO temp
 
         // New class/method that returns controller
+        // TODO: move switchView switchcase into its own class or method. Create Screen object initialized with screentype
+        //     make new method for each case statement.
         switch (screenType) {
-            case MAINMENU:
-                viewFileName = "/menu.fxml";
-                controller = new MenuController();
+            case MAIN_MENU:
+                loader = new MainMenuScreen().getScreenController(new MainMenuFile().getScreenFile());
                 break;
             case DEAL_PARAMETERS:
-                viewFileName = "/deal_parameters.fxml";
-                controller = new DealParametersController();
+                loader = new DealParametersScreen().getScreenController(new DealParametersFile().getScreenFile());
                 break;
             case GAME_PARAMETERS:
-                viewFileName = "/game_parameters.fxml";
-                controller = new GameParametersController();
+                loader = new GameParametersScreen().getScreenController(new GameParametersFile().getScreenFile());
                 break;
             case DEAL_LIST:
-                viewFileName = "/list_deals.fxml";
-                if(!(args[0] instanceof DealParameters)) {
-                    throw new IllegalArgumentException("Invalid model. Store object! " + args[0].toString());
-                }
-                controller = new DealListController((DealParameters) args[0]);
+                loader = new DealListScreen().getScreenController(new DealListFile().getScreenFile(), args);
                 break;
             case DEAL_VIEW:
-                viewFileName = "/view_deal.fxml";
-                if(!(args[0] instanceof Deal)) {
-                    throw new IllegalArgumentException("Invalid model. Deal object!" + args[0].toString());
-                }
-                else if(!(args[1] instanceof DealParameters)) {
-                    throw new IllegalArgumentException("Invalid model. DealParameter object!" + args[1].toString());
-                }
-                controller = new DealViewController((Deal) args[0], (DealParameters) args[1]);
+                loader = new DealViewScreen().getScreenController(new DealViewFile().getScreenFile(), args);
                 break;
             case GAME_LIST:
-                viewFileName = "/list_games.fxml";
-                if(!(args[0] instanceof String)) {
-                    throw new IllegalArgumentException("Invalid String!" + args[0].toString());
-                }
-                controller = new GameListController((String) args[0]);
+                loader = new GameListScreen().getScreenController(new GameListFile().getScreenFile(), args);
                 break;
-            case VIEW_GAME:
-                viewFileName = "/view_game.fxml";
-                if(!(args[0] instanceof Game)) {
-                    throw new IllegalArgumentException("Invalid model. Game object!" + args[0].toString());
-                }
-                else if(!(args[1] instanceof String)) {
-                    throw new IllegalArgumentException("Invalid String." + args[1].toString());
-                }
-                controller = new GameViewController((Game) args[0], (String) args[1]);
+            case GAME_VIEW:
+                loader = new GameViewScreen().getScreenController(new GameViewFile().getScreenFile(), args);
                 break;
         }
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));
-        loader.setController(controller);
+        //FXMLLoader loader = new FXMLLoader(this.getClass().getResource(viewFileName));
+        //loader.setController(controller);
         Parent rootNode = null;
         try {
             rootNode = loader.load();
@@ -98,7 +74,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        switchView(ScreenType.MAINMENU);
+        switchView(ScreenType.MAIN_MENU);
     }
 
     public static MainController getInstance() {

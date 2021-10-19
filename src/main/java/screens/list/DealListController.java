@@ -23,7 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
-import screens.ScreenType;
+import screens.screentypes.ScreenType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +62,7 @@ public class DealListController implements Initializable, SelectedController {
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.MAINMENU);
+        MainController.getInstance().switchView(ScreenType.MAIN_MENU);
     }
 
     public ArrayList<Deal> getDeals(DealParameters dealParameters) {

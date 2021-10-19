@@ -21,7 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
-import screens.ScreenType;
+import screens.screentypes.ScreenType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -86,14 +86,14 @@ public class GameListController implements Initializable, SelectedController {
             selectedGame = gameList.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
                 LOGGER.info("Loading information on <" + selectedGame + ">");
-                MainController.getInstance().switchView(ScreenType.VIEW_GAME, selectedGame, gameTitle);
+                MainController.getInstance().switchView(ScreenType.GAME_VIEW, selectedGame, gameTitle);
             }
         }
     }
 
     @FXML
     void exit(ActionEvent event) {
-        MainController.getInstance().switchView(ScreenType.MAINMENU);
+        MainController.getInstance().switchView(ScreenType.MAIN_MENU);
     }
 
     @FXML

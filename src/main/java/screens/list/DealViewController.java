@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.MainController;
 import screens.SelectedController;
-import screens.ScreenType;
+import screens.screentypes.ScreenType;
 
 import java.io.IOException;
 import java.net.URL;

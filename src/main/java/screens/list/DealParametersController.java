@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import screens.MainController;
 import screens.SelectedController;
 import screens.RetrieveStores;
-import screens.ScreenType;
+import screens.screentypes.ScreenType;
 
 import java.net.URL;
 import java.util.ArrayList;

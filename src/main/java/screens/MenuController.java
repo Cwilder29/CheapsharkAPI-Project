@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import screens.screentypes.ScreenType;
 
 import java.net.URL;
 import java.util.ResourceBundle;

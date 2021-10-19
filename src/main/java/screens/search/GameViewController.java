@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
 import screens.RetrieveStores;
-import screens.ScreenType;
+import screens.screentypes.ScreenType;
 
 import java.io.IOException;
 import java.net.URL;
