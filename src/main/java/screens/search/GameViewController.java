@@ -145,12 +145,16 @@ public class GameViewController implements Initializable, MyController {
     }
 
     private String checkSavings (String savings) {
+        int savingsRounded;
+
         try {
+            savingsRounded = (int) Double.parseDouble(savings);
+
             if (Double.parseDouble(savings) < 1) {
                 return "Not on sale";
             }
             else
-                return savings;
+                return (int) Double.parseDouble(savings) + "%";
         } catch (NumberFormatException e) {
             LOGGER.error("Error parsing savings:" + e);
             return savings;
@@ -190,7 +194,5 @@ public class GameViewController implements Initializable, MyController {
         else {
             Alerts.infoAlert("Error!", "Could not load game information from CheapShark: " + statusCode);
         }
-
-
     }
 }

@@ -56,13 +56,29 @@ public class DealViewController implements Initializable, MyController {
         }
     }
 
+    private String checkSavings(double savings) {
+        if (savings < 1) {
+            return "Not on sale";
+        }
+        else {
+            return (int) savings + "%";
+        }
+    }
+
+    private String checkRating(int rating) {
+        if (rating == 0)
+            return "No rating available";
+        else
+            return String.valueOf(rating);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fxTitle.setText(deal.getTitle());
         fxSalePrice.setText(String.valueOf(deal.getSalePrice()));
         fxNormalPrice.setText(String.valueOf(deal.getNormalPrice()));
-        fxSaving.setText(String.valueOf(deal.getSavings()));
-        fxMetacritic.setText(String.valueOf(deal.getMetacriticRating()));
-        fxSteam.setText(String.valueOf(deal.getSteamRating()));
+        fxSaving.setText(checkSavings(deal.getSavings()));
+        fxMetacritic.setText(checkRating(deal.getMetacriticRating()));
+        fxSteam.setText(checkRating(deal.getSteamRating()));
     }
 }

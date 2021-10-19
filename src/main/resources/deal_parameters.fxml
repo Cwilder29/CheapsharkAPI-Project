@@ -30,7 +30,7 @@
             <TextField fx:id="metacriticRating" alignment="CENTER_RIGHT" layoutX="268.0" layoutY="231.0" prefHeight="25.0" prefWidth="66.0" promptText="Optional" />
             <TextField fx:id="steamRating" alignment="CENTER_RIGHT" layoutX="268.0" layoutY="271.0" prefHeight="25.0" prefWidth="66.0" promptText="Optional" />
             <CheckBox fx:id="onlyAAA" layoutX="178.0" layoutY="310.0" mnemonicParsing="false" text="Only AAA Games" />
-            <CheckBox fx:id="onlySale" layoutX="315.0" layoutY="310.0" mnemonicParsing="false" text="Only Games on Sale" />
+            <CheckBox fx:id="onlySale" layoutX="315.0" layoutY="310.0" mnemonicParsing="false" selected="true" text="Only Games on Sale" />
          </children>
       </AnchorPane>
    </center>
