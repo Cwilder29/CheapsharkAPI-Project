@@ -134,12 +134,25 @@ public class GameViewController implements Initializable, MyController {
                 LOGGER.info("Setting new price");
                 fxPrice.setText(((JSONObject) dealSite).getString("price"));
                 fxRetailPrice.setText(((JSONObject) dealSite).getString("retailPrice"));
-                fxSavings.setText(((JSONObject) dealSite).getString("savings"));
+                fxSavings.setText(checkSavings(((JSONObject) dealSite).getString("savings")));
                 dealId = ((JSONObject) dealSite).getString("dealID");
                 break;
             }
         }
 
+    }
+
+    private String checkSavings (String savings) {
+        try {
+            if (Double.parseDouble(savings) < 1) {
+                return "Not on sale";
+            }
+            else
+                return savings;
+        } catch (NumberFormatException e) {
+            LOGGER.error("Error parsing savings:" + e);
+            return savings;
+        }
     }
 
     @Override

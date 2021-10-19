@@ -102,6 +102,8 @@ public class GameListController implements Initializable, MyController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        gameTitle = gameTitle.replaceAll("\\s+","");
+
         getGameDeals();
 
         ObservableList<Game> tempList = FXCollections.observableArrayList(games);
