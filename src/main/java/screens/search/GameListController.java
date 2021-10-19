@@ -1,5 +1,6 @@
 package screens.search;
 
+import javafx.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,13 +37,13 @@ public class GameListController implements Initializable, MyController {
 
     private String gameTitle;
     private ArrayList<Game> games;
+    private int statusCode;
 
     public GameListController(String gameTitle) {
         this.gameTitle = gameTitle;
     }
 
     public void getGameDeals() {
-        int statusCode;
         this.games = new ArrayList<>();
         String url = "https://www.cheapshark.com/api/1.0/games?title=" + this.gameTitle; //TODO check for spaces
 
@@ -106,9 +107,13 @@ public class GameListController implements Initializable, MyController {
 
         getGameDeals();
 
-        ObservableList<Game> tempList = FXCollections.observableArrayList(games);
-
-        // 2. plug the observable array list into the list
-        gameList.setItems(tempList);
+        if (statusCode == 200) {
+            ObservableList<Game> tempList = FXCollections.observableArrayList(games);
+            // plug the observable array list into the list
+            gameList.setItems(tempList);
+        }
+        else {
+            Alerts.infoAlert("Error!", "Could not retrieve games from CheapShark: " + statusCode);
+        }
     }
 }

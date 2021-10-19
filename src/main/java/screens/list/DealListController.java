@@ -109,7 +109,7 @@ public class DealListController implements Initializable, MyController {
                 LOGGER.info("Game deals successfully retrieved from CheapShark: " + statusCode);
             else {
                 LOGGER.error("Could not retrieve deals from CheapShark: " + statusCode);
-                Alerts.infoAlert("Could not load deals!", "Could not retrieve deals from Cheapshark: " + statusCode);
+                Alerts.infoAlert("Error!", "Could not retrieve deals from Cheapshark: " + statusCode);
                 return deals;
             }
 

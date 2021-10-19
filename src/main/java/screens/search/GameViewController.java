@@ -1,5 +1,6 @@
 package screens.search;
 
+import javafx.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,6 +51,7 @@ public class GameViewController implements Initializable, MyController {
     private JSONArray gameDeals;
     private String dealId;
     private String previousSearch;
+    private int statusCode;
 
     public GameViewController(Game game, String previousSearch) {
         this.game = game;
@@ -79,7 +81,6 @@ public class GameViewController implements Initializable, MyController {
     }
 
     public void viewGame (Game game) {
-        int statusCode;
         String url = "https://www.cheapshark.com/api/1.0/games?id=" + game.getGameId();
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -88,11 +89,12 @@ public class GameViewController implements Initializable, MyController {
 
             statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200)
-                LOGGER.info("Games successfully retrieved from CheapShark: " + statusCode);
+                LOGGER.info("Game successfully retrieved from CheapShark: " + statusCode);
             else {
-                LOGGER.error("Could not retrieve games from CheapShark: " + statusCode);
+                LOGGER.error("Could not retrieve game from CheapShark: " + statusCode);
                 response.close();
                 httpclient.close();
+                this.gameDetails = null;
                 return;
             }
             HttpEntity entity = response.getEntity();
@@ -161,26 +163,34 @@ public class GameViewController implements Initializable, MyController {
         int storeId;
 
         viewGame(this.game);
-        JSONObject infoResponse = new JSONObject(gameDetails.getJSONObject("info").toString());
-        this.fxTitle.setText(infoResponse.getString("title"));
-        this.gameDeals = new JSONArray(gameDetails.getJSONArray("deals").toString());
-        LOGGER.info(gameDeals.toString());
 
-        for (Object dealSite : this.gameDeals) {
-            storeId = getDealWebsite((JSONObject) dealSite);
-            if (this.stores != null) {
-                for (Store store : this.stores) {
-                    if (storeId == store.getStoreId()) {
-                        fxStore.getItems().add(store.getStoreName());
-                        break;
+        if (gameDetails != null) {
+            JSONObject infoResponse = new JSONObject(gameDetails.getJSONObject("info").toString());
+            this.fxTitle.setText(infoResponse.getString("title"));
+            this.gameDeals = new JSONArray(gameDetails.getJSONArray("deals").toString());
+            LOGGER.info(gameDeals.toString());
+
+            for (Object dealSite : this.gameDeals) {
+                storeId = getDealWebsite((JSONObject) dealSite);
+                if (this.stores != null) {
+                    for (Store store : this.stores) {
+                        if (storeId == store.getStoreId()) {
+                            fxStore.getItems().add(store.getStoreName());
+                            break;
+                        }
                     }
                 }
+                else
+                    LOGGER.error("No deals available");
             }
-            else
-                LOGGER.error("No deals available");
+
+            fxStore.getSelectionModel().selectFirst();
+            getGamePrices();
+        }
+        else {
+            Alerts.infoAlert("Error!", "Could not load game information from CheapShark: " + statusCode);
         }
 
-        fxStore.getSelectionModel().selectFirst();
-        getGamePrices();
+
     }
 }
