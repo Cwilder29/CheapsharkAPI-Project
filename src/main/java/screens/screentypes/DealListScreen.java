@@ -13,7 +13,7 @@ public class DealListScreen implements Screen {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/list_deals.fxml"));
 
         if(!(args[0] instanceof DealParameters)) {
-            throw new IllegalArgumentException("Invalid model. Store object! " + args[0].toString());
+            throw new IllegalArgumentException("Invalid model. DealParameters object! " + args[0].toString());
         }
         controller = new DealListController((DealParameters) args[0]);
 
