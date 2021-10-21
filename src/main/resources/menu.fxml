@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -19,6 +18,7 @@
             <Label layoutX="211.0" layoutY="49.0" text="Developed by: Christopher Wilder" />
             <Button layoutX="250.0" layoutY="149.0" mnemonicParsing="false" onAction="#listDeals" text="List Game Deals" />
             <Button layoutX="237.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchGame" text="Search by Game Title" />
+            <Button layoutX="247.0" layoutY="248.0" mnemonicParsing="false" onAction="#viewSaved" text="View Saved Deals" />
          </children>
       </AnchorPane>
    </center>

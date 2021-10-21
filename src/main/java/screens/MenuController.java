@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import screens.screentypes.DealParametersScreen;
 import screens.screentypes.GameParametersScreen;
+import screens.screentypes.SavedDealsScreen;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +25,12 @@ public class MenuController implements Initializable, SelectedController {
     void searchGame(ActionEvent event) {
         LOGGER.info("Selected to search by game title. Loading parameters...");
         MainController.getInstance().switchView(new GameParametersScreen().getScreenController());
+    }
+
+    @FXML
+    void viewSaved(ActionEvent event) {
+        LOGGER.info("Viewing saved game deals. Loading...");
+        MainController.getInstance().switchView(new SavedDealsScreen().getScreenController());
     }
 
     @Override
