@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     private static final Logger LOGGER = LogManager.getLogger();
-
     private static MainController instance = null;
 
     @FXML
@@ -30,7 +29,7 @@ public class MainController implements Initializable {
             rootNode = loader.load();
             rootPane.setCenter(rootNode);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 

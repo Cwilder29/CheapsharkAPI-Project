@@ -47,7 +47,7 @@ public class GameListController implements Initializable, SelectedController {
 
     public void getGameDeals() {
         this.games = new ArrayList<>();
-        String url = "https://www.cheapshark.com/api/1.0/games?title=" + this.gameTitle; //TODO check for spaces
+        String url = "https://www.cheapshark.com/api/1.0/games?title=" + this.gameTitle;
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
