@@ -12,6 +12,9 @@ public class GameDeal {
     @Column(name = "game_id", nullable = false)
     private int gameId;
 
+    @Column(name = "title", nullable = false)
+    private String title;
+
     @Column(name = "sale_price", nullable = false)
     private float salePrice;
 
@@ -29,6 +32,7 @@ public class GameDeal {
         return "GameDeal{" +
                 "dealId='" + dealId + '\'' +
                 ", gameId=" + gameId +
+                ", title='" + title + '\'' +
                 ", salePrice=" + salePrice +
                 ", normalPrice=" + normalPrice +
                 ", storeId=" + storeId +
@@ -50,6 +54,14 @@ public class GameDeal {
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public float getSalePrice() {

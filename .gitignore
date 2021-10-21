@@ -3,5 +3,4 @@
 target
 logs
 /src/test/
-/src/main/java/springboot/services/HelloController.java
 /src/main/resources/application.properties
