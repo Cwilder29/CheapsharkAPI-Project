@@ -6,6 +6,10 @@ import javax.persistence.*;
 @Table(name = "deals")
 public class GameDeal {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int id;
+
     @Column(name = "deal_id", nullable = false, length = 100)
     private String dealId;
 
@@ -30,7 +34,8 @@ public class GameDeal {
     @Override
     public String toString() {
         return "GameDeal{" +
-                "dealId='" + dealId + '\'' +
+                "id=" + id +
+                ", dealId='" + dealId + '\'' +
                 ", gameId=" + gameId +
                 ", title='" + title + '\'' +
                 ", salePrice=" + salePrice +
@@ -40,6 +45,14 @@ public class GameDeal {
     }
 
     // accessors
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getDealId() {
         return dealId;
     }
