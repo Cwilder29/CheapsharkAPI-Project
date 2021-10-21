@@ -16,7 +16,7 @@ public class DealViewScreen implements Screen {
             throw new IllegalArgumentException("Invalid model. Deal object!" + args[0].toString());
         }
         else if(!(args[1] instanceof DealParameters)) {
-            throw new IllegalArgumentException("Invalid model. DealParameter object!" + args[1].toString());
+            throw new IllegalArgumentException("Invalid model. DealParameters object!" + args[1].toString());
         }
         controller = new DealViewController((Deal) args[0], (DealParameters) args[1]);
 

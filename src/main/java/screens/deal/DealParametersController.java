@@ -88,6 +88,8 @@ public class DealParametersController implements Initializable, SelectedControll
         }
     }
 
+    // Helper methods for setting up search parameters
+
     private int setUpperPrice() {
         try {
             dealParameters.setUpperPrice(Integer.parseInt(priceSelection.getText()));
