@@ -57,6 +57,11 @@ public class DealListController implements Initializable, SelectedController {
     }
 
     @FXML
+    void nextPage(ActionEvent event) {
+        LOGGER.info("Loading next page...");
+    }
+
+    @FXML
     void newSearch(ActionEvent event) {
         MainController.getInstance().switchView(new DealParametersScreen().getScreenController());
     }

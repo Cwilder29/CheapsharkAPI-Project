@@ -24,8 +24,10 @@ public class Deal {
 
     public static Deal fromJSONObject(JSONObject json) {
         try {
-            Deal deal = new Deal(json.getString("title"), json.getString("dealID"), json.getFloat("salePrice"), json.getFloat("normalPrice"),
-                     json.getDouble("savings"), json.getInt("metacriticScore"), json.getInt("steamRatingPercent"));
+            Deal deal = new Deal(json.getString("title"), json.getString("dealID"),
+                                 json.getFloat("salePrice"), json.getFloat("normalPrice"),
+                                 json.getDouble("savings"), json.getInt("metacriticScore"),
+                                 json.getInt("steamRatingPercent"));
             return deal;
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());

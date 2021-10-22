@@ -1,6 +1,7 @@
 package model;
 
 public class DealParameters {
+    // Implemented
     private Store store;
     private int upperPrice;
     private Sort sortBy;
@@ -8,6 +9,15 @@ public class DealParameters {
     private Boolean onlySale;
     private int MetacriticRating;
     private int SteamRating;
+
+    // Not Implemented
+    private int pageNumber;
+    private int pageSize;
+    private int lowerPrice;
+    private boolean sortDirection;
+    private String title;
+    private boolean exactSearch;
+    private boolean steamWorks;
 
     public DealParameters() {
     }
@@ -67,5 +77,61 @@ public class DealParameters {
 
     public void setSteamRating(int minSteamRating) {
         this.SteamRating = minSteamRating;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getLowerPrice() {
+        return lowerPrice;
+    }
+
+    public void setLowerPrice(int lowerPrice) {
+        this.lowerPrice = lowerPrice;
+    }
+
+    public boolean isSortDirection() {
+        return sortDirection;
+    }
+
+    public void setSortDirection(boolean sortDirection) {
+        this.sortDirection = sortDirection;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isExactSearch() {
+        return exactSearch;
+    }
+
+    public void setExactSearch(boolean exactSearch) {
+        this.exactSearch = exactSearch;
+    }
+
+    public boolean isSteamWorks() {
+        return steamWorks;
+    }
+
+    public void setSteamWorks(boolean steamWorks) {
+        this.steamWorks = steamWorks;
     }
 }
