@@ -30,6 +30,7 @@ public class MainController implements Initializable {
             rootPane.setCenter(rootNode);
         } catch (IOException e) {
             LOGGER.error(e.getCause());
+            //e.printStackTrace();
         }
     }
 

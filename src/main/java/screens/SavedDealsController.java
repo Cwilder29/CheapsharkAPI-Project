@@ -33,7 +33,7 @@ public class SavedDealsController implements Initializable, SelectedController{
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML
-    private ListView<?> gameList;
+    private ListView<Deal> gameList;
 
     @FXML
     void clickGame(MouseEvent event) {
@@ -57,7 +57,7 @@ public class SavedDealsController implements Initializable, SelectedController{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Deal> deals = null;
+        ArrayList<Deal> deals = new ArrayList<>();
         int statusCode;
         InetAddress inetAddress = null;
 
@@ -79,10 +79,10 @@ public class SavedDealsController implements Initializable, SelectedController{
 
             statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200)
-                LOGGER.info("Game deals successfully retrieved from CheapShark: " + statusCode);
+                LOGGER.info("Game deals successfully retrieved from Database: " + statusCode);
             else {
                 LOGGER.error("Could not retrieve deals from CheapShark: " + statusCode);
-                Alerts.infoAlert("Error!", "Could not retrieve deals from Cheapshark: " + statusCode);
+                Alerts.infoAlert("Error!", "Could not retrieve deals from Database: " + statusCode);
                 return;
             }
 
@@ -92,8 +92,6 @@ public class SavedDealsController implements Initializable, SelectedController{
             EntityUtils.consume(entity);
 
             JSONArray objResponse = new JSONArray(strResponse);
-
-            //LOGGER.info(objResponse);
 
             for (Object game : objResponse) {
                 deals.add(Deal.fromJSONObject((JSONObject) game));
@@ -106,6 +104,8 @@ public class SavedDealsController implements Initializable, SelectedController{
         }
 
         LOGGER.info(deals);
-        //ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
+
+        ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
+        gameList.setItems(tempList);
     }
 }

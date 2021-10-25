@@ -11,31 +11,31 @@ public class GameDeal {
     private int id;
 
     @Column(name = "deal_id", nullable = false, length = 100)
-    private String deal_id;
+    private String dealID;
 
     @Column(name = "game_id", nullable = false)
-    private int game_id;
+    private int gameID;
 
     @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "sale_price", nullable = false)
-    private float sale_price;
+    private float salePrice;
 
     @Column(name = "normal_price", nullable = false)
-    private float normal_price;
+    private float normalPrice;
 
     @Column(name = "store_id", nullable = false)
-    private int store_id;
+    private int storeID;
 
     @Column(name = "savings", nullable = true)
     private float savings;
 
     @Column(name = "metacritic_score", nullable = true)
-    private int metacritic_score;
+    private int metacriticScore;
 
     @Column(name = "steam_rating_percent", nullable = true)
-    private int steam_rating_percent;
+    private int steamRatingPercent;
 
     public GameDeal() {
     }
@@ -44,15 +44,15 @@ public class GameDeal {
     public String toString() {
         return "GameDeal{" +
                 "id=" + id +
-                ", deal_id='" + deal_id + '\'' +
-                ", game_id=" + game_id +
+                ", dealID='" + dealID + '\'' +
+                ", gameID=" + gameID +
                 ", title='" + title + '\'' +
-                ", sale_price=" + sale_price +
-                ", normal_price=" + normal_price +
-                ", store_id=" + store_id +
+                ", salePrice=" + salePrice +
+                ", normalPrice=" + normalPrice +
+                ", storeID=" + storeID +
                 ", savings=" + savings +
-                ", metacritic_score=" + metacritic_score +
-                ", steam_rating_percent=" + steam_rating_percent +
+                ", metacriticScore=" + metacriticScore +
+                ", steamRatingPercent=" + steamRatingPercent +
                 '}';
     }
 
@@ -65,20 +65,20 @@ public class GameDeal {
         this.id = id;
     }
 
-    public String getDeal_id() {
-        return deal_id;
+    public String getDealID() {
+        return dealID;
     }
 
-    public void setDeal_id(String deal_id) {
-        this.deal_id = deal_id;
+    public void setDealID(String dealID) {
+        this.dealID = dealID;
     }
 
-    public int getGame_id() {
-        return game_id;
+    public int getGameID() {
+        return gameID;
     }
 
-    public void setGame_id(int game_id) {
-        this.game_id = game_id;
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 
     public String getTitle() {
@@ -89,28 +89,28 @@ public class GameDeal {
         this.title = title;
     }
 
-    public float getSale_price() {
-        return sale_price;
+    public float getSalePrice() {
+        return salePrice;
     }
 
-    public void setSale_price(float sale_price) {
-        this.sale_price = sale_price;
+    public void setSalePrice(float salePrice) {
+        this.salePrice = salePrice;
     }
 
-    public float getNormal_price() {
-        return normal_price;
+    public float getNormalPrice() {
+        return normalPrice;
     }
 
-    public void setNormal_price(float normal_price) {
-        this.normal_price = normal_price;
+    public void setNormalPrice(float normalPrice) {
+        this.normalPrice = normalPrice;
     }
 
-    public int getStore_id() {
-        return store_id;
+    public int getStoreID() {
+        return storeID;
     }
 
-    public void setStore_id(int store_id) {
-        this.store_id = store_id;
+    public void setStoreID(int storeID) {
+        this.storeID = storeID;
     }
 
     public float getSavings() {
@@ -121,19 +121,19 @@ public class GameDeal {
         this.savings = savings;
     }
 
-    public int getMetacritic_score() {
-        return metacritic_score;
+    public int getMetacriticScore() {
+        return metacriticScore;
     }
 
-    public void setMetacritic_score(int metacritic_score) {
-        this.metacritic_score = metacritic_score;
+    public void setMetacriticScore(int metacriticScore) {
+        this.metacriticScore = metacriticScore;
     }
 
-    public int getSteam_rating_percent() {
-        return steam_rating_percent;
+    public int getSteamRatingPercent() {
+        return steamRatingPercent;
     }
 
-    public void setSteam_rating_percent(int steam_rating_percent) {
-        this.steam_rating_percent = steam_rating_percent;
+    public void setSteamRatingPercent(int steamRatingPercent) {
+        this.steamRatingPercent = steamRatingPercent;
     }
 }

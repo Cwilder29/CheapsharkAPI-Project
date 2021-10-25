@@ -42,15 +42,15 @@ public class GameDealController {
     public ResponseEntity<?> insertDeal(@RequestBody GameDeal newDeal) {
         Optional<GameDeal> existingDeal;
 
-        LOGGER.info("Checking for existing deal id: " + newDeal.getDeal_id());
-        existingDeal = gameDealRepository.findGameDealByDeal_id(newDeal.getDeal_id());
+        LOGGER.info("Checking for existing deal id: " + newDeal.getDealID());
+        existingDeal = gameDealRepository.findGameDealByDealID(newDeal.getDealID());
 
         if (existingDeal.isEmpty()) {
             GameDeal savedDeal = gameDealRepository.save(newDeal);
             return new ResponseEntity<>(savedDeal.getId(), HttpStatus.valueOf(200));
         }
         else {
-            LOGGER.error("Deal already exists in the database: " + existingDeal.get().getDeal_id());
+            LOGGER.error("Deal already exists in the database: " + existingDeal.get().getDealID());
             return new ResponseEntity<>("already exists", HttpStatus.valueOf(400));
         }
     }
@@ -65,7 +65,7 @@ public class GameDealController {
         // Check that the updated deal does not conflict with another deal id besides one being updated.
         if (otherDeals.isPresent()) {
             for (GameDeal existingDeal : otherDeals.get()) {
-                if (newDeal.getDeal_id().equals(existingDeal.getDeal_id())) {
+                if (newDeal.getDealID().equals(existingDeal.getDealID())) {
                     LOGGER.error("Updated deal id conflicts another existing deal!");
                     return new ResponseEntity<>("already exists", HttpStatus.valueOf(400));
                 }

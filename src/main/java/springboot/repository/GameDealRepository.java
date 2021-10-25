@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GameDealRepository extends JpaRepository <GameDeal, Integer>{
-    Optional<GameDeal> findGameDealByDeal_id(String deal_id);
+    Optional<GameDeal> findGameDealByDealID(String dealID);
     Optional<List<GameDeal>> findAllByIdNot(Integer id);
 }
