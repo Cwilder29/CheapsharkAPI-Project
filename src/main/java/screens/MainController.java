@@ -29,7 +29,7 @@ public class MainController implements Initializable {
             rootNode = loader.load();
             rootPane.setCenter(rootNode);
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getCause());
         }
     }
 

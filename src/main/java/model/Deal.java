@@ -12,7 +12,11 @@ public class Deal {
     private int metacriticRating;
     private int steamRating;
 
-    public Deal(String title, String dealId, float salePrice, float normalPrice, double savings, int metacriticRating, int steamRating) {
+    private int storeId;
+    private int gameId;
+
+    public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
+                int metacriticRating, int steamRating, int storeId, int gameId) {
         this.title = title;
         this.dealId = dealId;
         this.salePrice = salePrice;
@@ -20,6 +24,8 @@ public class Deal {
         this.savings = savings;
         this.metacriticRating = metacriticRating;
         this.steamRating = steamRating;
+        this.storeId = storeId;
+        this.gameId = gameId;
     }
 
     public static Deal fromJSONObject(JSONObject json) {
@@ -27,7 +33,8 @@ public class Deal {
             Deal deal = new Deal(json.getString("title"), json.getString("dealID"),
                                  json.getFloat("salePrice"), json.getFloat("normalPrice"),
                                  json.getDouble("savings"), json.getInt("metacriticScore"),
-                                 json.getInt("steamRatingPercent"));
+                                 json.getInt("steamRatingPercent"), json.getInt("storeID"),
+                                 json.getInt("gameID"));
             return deal;
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
@@ -36,7 +43,7 @@ public class Deal {
 
     @Override
     public String toString() {
-        return getTitle();
+        return getTitle() + " (Store name)"; // TODO Find out how to get store name
     }
 
     // accessors

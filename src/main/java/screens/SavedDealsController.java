@@ -50,11 +50,17 @@ public class SavedDealsController implements Initializable, SelectedController{
         MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
     }
 
+    @FXML
+    void nextPage(ActionEvent event) {
+        LOGGER.info("Loading next page...");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<String> deals = null;
-
+        ArrayList<Deal> deals = null;
+        int statusCode;
         InetAddress inetAddress = null;
+
         try {
             inetAddress = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
@@ -64,7 +70,6 @@ public class SavedDealsController implements Initializable, SelectedController{
         LOGGER.info("IP Address:- " + inetAddress.getHostAddress());
         String ip = inetAddress.getHostAddress();
 
-        int statusCode;
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -88,7 +93,11 @@ public class SavedDealsController implements Initializable, SelectedController{
 
             JSONArray objResponse = new JSONArray(strResponse);
 
-            LOGGER.info(objResponse);
+            //LOGGER.info(objResponse);
+
+            for (Object game : objResponse) {
+                deals.add(Deal.fromJSONObject((JSONObject) game));
+            }
 
             response.close();
             httpclient.close();
@@ -96,6 +105,7 @@ public class SavedDealsController implements Initializable, SelectedController{
             e.printStackTrace();
         }
 
+        LOGGER.info(deals);
         //ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
     }
 }
