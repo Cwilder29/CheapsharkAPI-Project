@@ -41,19 +41,6 @@ public class Deal {
         }
     }
 
-    public static Deal fromDatabaseJSONObject(JSONObject json) {
-        try {
-            Deal deal = new Deal(json.getString("title"), json.getString("dealId"),
-                    json.getFloat("salePrice"), json.getFloat("normalPrice"),
-                    json.getDouble("savings"), json.getInt("metacriticScore"),
-                    json.getInt("steamRatingPercent"), json.getInt("storeID"),
-                    json.getInt("gameID"));
-            return deal;
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
-        }
-    }
-
     @Override
     public String toString() {
         return getTitle() + " (Store name)"; // TODO Find out how to get store name
@@ -114,5 +101,21 @@ public class Deal {
 
     public void setSteamRating(int steamRating) {
         this.steamRating = steamRating;
+    }
+
+    public int getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 }

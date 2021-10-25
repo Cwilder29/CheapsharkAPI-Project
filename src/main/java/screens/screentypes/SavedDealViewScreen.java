@@ -9,7 +9,7 @@ public class SavedDealViewScreen implements Screen {
     @Override
     public FXMLLoader getScreenController(Object... args) {
         SelectedController controller = null;
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/view_deal.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/view_saved_deal.fxml"));
 
         if(!(args[0] instanceof Deal)) {
             throw new IllegalArgumentException("Invalid model. Deal object!" + args[0].toString());

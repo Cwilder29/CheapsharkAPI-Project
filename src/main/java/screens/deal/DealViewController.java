@@ -1,5 +1,6 @@
 package screens.deal;
 
+import javafx.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,14 +8,26 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.DealParameters;
 import model.Deal;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
 import screens.screentypes.DealListScreen;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 public class DealViewController implements Initializable, SelectedController {
@@ -53,6 +66,65 @@ public class DealViewController implements Initializable, SelectedController {
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
         } catch (IOException e) {
             LOGGER.error("Could not loud website: " + e);
+        }
+    }
+
+    @FXML
+    void saveDeal(ActionEvent event) {
+        int statusCode;
+        InetAddress inetAddress = null;
+
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return;
+        }
+        LOGGER.info("IP Address:- " + inetAddress.getHostAddress());
+        String ip = inetAddress.getHostAddress();
+
+        // TODO Move into a utils package
+        try {
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpPost postRequest = new HttpPost("http://" + ip + ":8080/deals"); // TODO change to variable
+            LOGGER.info("Connecting to " + ip + ":8080/deals");
+
+            JSONObject dealData = new JSONObject();
+            dealData.put("title", deal.getTitle());
+            dealData.put("dealID", deal.getDealId());
+            dealData.put("salePrice", deal.getSalePrice());
+            dealData.put("normalPrice", deal.getNormalPrice());
+            dealData.put("gameID", deal.getGameId());
+            dealData.put("storeID", deal.getStoreId());
+            dealData.put("savings", deal.getSavings());
+            dealData.put("metacriticScore", deal.getMetacriticRating());
+            dealData.put("steamRatingPercent", deal.getSteamRating());
+            String dealDataString = dealData.toString();
+
+            StringEntity reqEntity = new StringEntity(dealDataString);
+            LOGGER.info(dealDataString);
+            reqEntity.setContentType("application/json");
+            postRequest.setEntity(reqEntity);
+
+
+            CloseableHttpResponse response = httpclient.execute(postRequest);
+
+            statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == 200) {
+                LOGGER.info("Deal successfully saved in the database: " + statusCode);
+                Alerts.infoAlert("Deal Saved!", "Deal successfully saved in the database");
+            }
+            else {
+                HttpEntity entity = response.getEntity();
+                String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                LOGGER.error("Could not save deal into the database: " + strResponse + " (" + statusCode + ")");
+                Alerts.infoAlert("Error!", "Could not save deal into the database: " + strResponse);
+            }
+
+            response.close();
+            httpclient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
