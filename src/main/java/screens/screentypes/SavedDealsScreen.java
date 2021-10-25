@@ -10,7 +10,7 @@ public class SavedDealsScreen implements Screen {
     @Override
     public FXMLLoader getScreenController(Object... args) {
         SelectedController controller = null;
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/list_deals.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/list_saved_deals.fxml"));
 
         controller = new SavedDealsController();
 

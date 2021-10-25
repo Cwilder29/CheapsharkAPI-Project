@@ -49,12 +49,60 @@ public class SavedDealsController implements Initializable, SelectedController{
     }
 
     @FXML
-    void exit(ActionEvent event) {
-        MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
+    void deleteDeal(ActionEvent event) {
+
+        // TODO implement fetch deal by id. Then implement delete from mapping.
+
+        int statusCode;
+        InetAddress inetAddress = null;
+
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return;
+        }
+        LOGGER.info("IP Address:- " + inetAddress.getHostAddress());
+        String ip = inetAddress.getHostAddress();
+
+        try {
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpGet getRequest = new HttpGet("http://" + ip + ":8080/deals"); // TODO change to variable
+            LOGGER.info("Connecting to " + ip + ":8080/deals");
+            CloseableHttpResponse response = httpclient.execute(getRequest);
+
+            statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == 200)
+                LOGGER.info("Game deals successfully retrieved from Database: " + statusCode);
+            else {
+                LOGGER.error("Could not retrieve deals from CheapShark: " + statusCode);
+                Alerts.infoAlert("Error!", "Could not retrieve deals from Database: " + statusCode);
+                return null;
+            }
+
+            HttpEntity entity = response.getEntity();
+            // use org.apache.http.util.EntityUtils to read json as string
+            String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+            EntityUtils.consume(entity);
+
+            JSONArray objResponse = new JSONArray(strResponse);
+
+            for (Object game : objResponse) {
+                deals.add(Deal.fromJSONObject((JSONObject) game));
+            }
+
+            response.close();
+            httpclient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        LOGGER.info(deals);
+        return deals;
     }
 
     @FXML
-    void newSearch(ActionEvent event) {
+    void exit(ActionEvent event) {
         MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
     }
 

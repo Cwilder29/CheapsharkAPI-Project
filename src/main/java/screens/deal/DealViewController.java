@@ -105,8 +105,6 @@ public class DealViewController implements Initializable, SelectedController {
             LOGGER.info(dealDataString);
             reqEntity.setContentType("application/json");
             postRequest.setEntity(reqEntity);
-
-
             CloseableHttpResponse response = httpclient.execute(postRequest);
 
             statusCode = response.getStatusLine().getStatusCode();
