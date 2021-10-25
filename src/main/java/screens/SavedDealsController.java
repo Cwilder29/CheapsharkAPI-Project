@@ -37,7 +37,13 @@ public class SavedDealsController implements Initializable, SelectedController{
 
     @FXML
     void clickGame(MouseEvent event) {
-        LOGGER.info("Double Click");
+        Deal selectedDeal;
+        if (event.getClickCount() == 2) {
+            selectedDeal = gameList.getSelectionModel().getSelectedItem();
+            if (selectedDeal != null) {
+                LOGGER.info("Loading information on <" + selectedDeal.getTitle() + ">");
+            }
+        }
     }
 
     @FXML
@@ -55,8 +61,7 @@ public class SavedDealsController implements Initializable, SelectedController{
         LOGGER.info("Loading next page...");
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    private ArrayList<Deal> fetchSavedDeals() {
         ArrayList<Deal> deals = new ArrayList<>();
         int statusCode;
         InetAddress inetAddress = null;
@@ -65,7 +70,7 @@ public class SavedDealsController implements Initializable, SelectedController{
             inetAddress = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            return;
+            return null;
         }
         LOGGER.info("IP Address:- " + inetAddress.getHostAddress());
         String ip = inetAddress.getHostAddress();
@@ -73,8 +78,8 @@ public class SavedDealsController implements Initializable, SelectedController{
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet("http://" + ip + ":8080/deals"); // TODO
-            LOGGER.info("Connecting to:localhost:8080/deals");
+            HttpGet getRequest = new HttpGet("http://" + ip + ":8080/deals"); // TODO change to variable
+            LOGGER.info("Connecting to " + ip + ":8080/deals");
             CloseableHttpResponse response = httpclient.execute(getRequest);
 
             statusCode = response.getStatusLine().getStatusCode();
@@ -83,7 +88,7 @@ public class SavedDealsController implements Initializable, SelectedController{
             else {
                 LOGGER.error("Could not retrieve deals from CheapShark: " + statusCode);
                 Alerts.infoAlert("Error!", "Could not retrieve deals from Database: " + statusCode);
-                return;
+                return null;
             }
 
             HttpEntity entity = response.getEntity();
@@ -104,8 +109,19 @@ public class SavedDealsController implements Initializable, SelectedController{
         }
 
         LOGGER.info(deals);
+        return deals;
+    }
 
-        ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
-        gameList.setItems(tempList);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ArrayList<Deal> deals = fetchSavedDeals();
+
+        if (deals == null) {
+            Alerts.infoAlert("Error!", "Could not load saved deals!");
+        }
+        else {
+            ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
+            gameList.setItems(tempList);
+        }
     }
 }
