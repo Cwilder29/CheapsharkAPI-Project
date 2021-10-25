@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.screentypes.MainMenuScreen;
+import screens.screentypes.SavedDealViewScreen;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -42,6 +43,7 @@ public class SavedDealsController implements Initializable, SelectedController{
             selectedDeal = gameList.getSelectionModel().getSelectedItem();
             if (selectedDeal != null) {
                 LOGGER.info("Loading information on <" + selectedDeal.getTitle() + ">");
+                MainController.getInstance().switchView(new SavedDealViewScreen().getScreenController(selectedDeal));
             }
         }
     }

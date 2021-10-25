@@ -29,8 +29,8 @@ public class MainController implements Initializable {
             rootNode = loader.load();
             rootPane.setCenter(rootNode);
         } catch (IOException e) {
-            LOGGER.error(e.getCause());
-            //e.printStackTrace();
+            //LOGGER.error(e.getCause());
+            e.printStackTrace();
         }
     }
 
