@@ -105,7 +105,7 @@ public class DealListController implements Initializable, SelectedController {
     }
 
     private ArrayList<Deal> fetchDeals(ArrayList<Deal> deals, String url) {
-        String strResponse = new GetRequest().executeRequest(url);
+        String strResponse = new GetRequest().executeRequest(url, "");
         JSONArray objResponse = new JSONArray(strResponse);
 
         for (Object deal : objResponse) {

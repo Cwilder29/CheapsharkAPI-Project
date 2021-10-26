@@ -49,7 +49,7 @@ public class GameListController implements Initializable, SelectedController {
         this.games = new ArrayList<>();
         String url = "https://www.cheapshark.com/api/1.0/games?title=" + this.gameTitle;
 
-        String strResponse = new GetRequest().executeRequest(url);
+        String strResponse = new GetRequest().executeRequest(url, "");
 
         JSONArray objResponse = new JSONArray(strResponse);
 

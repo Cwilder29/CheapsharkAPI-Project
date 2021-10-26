@@ -90,7 +90,7 @@ public class GameViewController implements Initializable, SelectedController {
     public void viewGame (Game game) {
         String url = "https://www.cheapshark.com/api/1.0/games?id=" + game.getGameId();
 
-        String strResponse = new GetRequest().executeRequest(url);
+        String strResponse = new GetRequest().executeRequest(url, "");
 
         this.gameDetails = new JSONObject(strResponse);
     }

@@ -1,5 +1,6 @@
 package screens.deal;
 
+import httpclient.PostRequest;
 import javafx.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -82,48 +83,21 @@ public class DealViewController implements Initializable, SelectedController {
         }
         LOGGER.info("IP Address:- " + inetAddress.getHostAddress());
         String ip = inetAddress.getHostAddress();
+        String url = "http://" + ip + ":8080/deals";
 
-        // TODO Move into a utils package
-        try {
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpPost postRequest = new HttpPost("http://" + ip + ":8080/deals"); // TODO change to variable
-            LOGGER.info("Connecting to " + ip + ":8080/deals");
+        JSONObject dealData = new JSONObject();
+        dealData.put("title", deal.getTitle());
+        dealData.put("dealID", deal.getDealId());
+        dealData.put("salePrice", deal.getSalePrice());
+        dealData.put("normalPrice", deal.getNormalPrice());
+        dealData.put("gameID", deal.getGameId());
+        dealData.put("storeID", deal.getStoreId());
+        dealData.put("savings", deal.getSavings());
+        dealData.put("metacriticScore", deal.getMetacriticRating());
+        dealData.put("steamRatingPercent", deal.getSteamRating());
+        String dealDataString = dealData.toString();
 
-            JSONObject dealData = new JSONObject();
-            dealData.put("title", deal.getTitle());
-            dealData.put("dealID", deal.getDealId());
-            dealData.put("salePrice", deal.getSalePrice());
-            dealData.put("normalPrice", deal.getNormalPrice());
-            dealData.put("gameID", deal.getGameId());
-            dealData.put("storeID", deal.getStoreId());
-            dealData.put("savings", deal.getSavings());
-            dealData.put("metacriticScore", deal.getMetacriticRating());
-            dealData.put("steamRatingPercent", deal.getSteamRating());
-            String dealDataString = dealData.toString();
-
-            StringEntity reqEntity = new StringEntity(dealDataString);
-            LOGGER.info(dealDataString);
-            reqEntity.setContentType("application/json");
-            postRequest.setEntity(reqEntity);
-            CloseableHttpResponse response = httpclient.execute(postRequest);
-
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 200) {
-                LOGGER.info("Deal successfully saved in the database: " + statusCode);
-                Alerts.infoAlert("Deal Saved!", "Deal successfully saved in the database");
-            }
-            else {
-                HttpEntity entity = response.getEntity();
-                String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-                LOGGER.error("Could not save deal into the database: " + strResponse + " (" + statusCode + ")");
-                Alerts.infoAlert("Error!", "Could not save deal into the database: " + strResponse);
-            }
-
-            response.close();
-            httpclient.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new PostRequest().executeRequest(url, dealDataString);
     }
 
     private String checkSavings(double savings) {
