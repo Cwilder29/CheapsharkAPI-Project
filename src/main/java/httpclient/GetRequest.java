@@ -41,8 +41,13 @@ public class GetRequest implements Request {
                 return strResponse;
             }
             else {
-                LOGGER.error("Failed to connect to " + url + " (status code: " + statusCode + ")");
-                Alerts.infoAlert("Error!", "Could not complete request!");
+                HttpEntity entity = response.getEntity();
+                strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                EntityUtils.consume(entity);
+
+                LOGGER.error("Failed to connected to: " + url + " (" + strResponse + ": " + statusCode + ")");
+                Alerts.infoAlert("Error!", "Could not complete request: " + strResponse);
+
                 response.close();
                 httpclient.close();
                 return null;

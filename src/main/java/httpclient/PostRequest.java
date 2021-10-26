@@ -48,8 +48,8 @@ public class PostRequest implements Request {
                 strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
                 EntityUtils.consume(entity);
 
-                LOGGER.error("Failed to connected to: " + url + "(" + strResponse + " " + statusCode + ")");
-                Alerts.infoAlert("Error!", "Could not complete request:" + strResponse);
+                LOGGER.error("Failed to connected to: " + url + " (" + strResponse + ": " + statusCode + ")");
+                Alerts.infoAlert("Error!", "Could not complete request: " + strResponse);
 
                 response.close();
                 httpclient.close();

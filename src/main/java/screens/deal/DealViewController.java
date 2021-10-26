@@ -7,28 +7,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import model.DealParameters;
 import model.Deal;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.MainController;
 import screens.SelectedController;
 import screens.screentypes.DealListScreen;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 public class DealViewController implements Initializable, SelectedController {
@@ -46,6 +39,8 @@ public class DealViewController implements Initializable, SelectedController {
     private TextField fxMetacritic;
     @FXML
     private TextField fxSteam;
+    @FXML
+    private Label fxSave;
 
     private Deal deal;
     private DealParameters dealParameters;
@@ -72,8 +67,8 @@ public class DealViewController implements Initializable, SelectedController {
 
     @FXML
     void saveDeal(ActionEvent event) {
-        int statusCode;
         InetAddress inetAddress = null;
+        String strResponse;
 
         try {
             inetAddress = InetAddress.getLocalHost();
@@ -97,7 +92,16 @@ public class DealViewController implements Initializable, SelectedController {
         dealData.put("steamRatingPercent", deal.getSteamRating());
         String dealDataString = dealData.toString();
 
-        new PostRequest().executeRequest(url, dealDataString);
+        strResponse = new PostRequest().executeRequest(url, dealDataString);
+
+        if (strResponse != null) {
+            fxSave.setText("Deal saved!");
+            fxSave.setTextFill(Color.web("#38BC00"));
+        }
+        else {
+            fxSave.setText("Did not save!");
+            fxSave.setTextFill(Color.web("#FF0000"));
+        }
     }
 
     private String checkSavings(double savings) {

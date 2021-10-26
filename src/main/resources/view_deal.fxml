@@ -30,6 +30,7 @@
             </Label>
             <Hyperlink layoutX="259.0" layoutY="350.0" onAction="#viewDeal" prefHeight="23.0" prefWidth="105.0" text="View Deal Online" />
             <Button layoutX="17.0" layoutY="361.0" mnemonicParsing="false" onAction="#saveDeal" text="Save" />
+            <Label fx:id="fxSave" layoutX="67.0" layoutY="365.0" />
          </children>
       </AnchorPane>
    </center>
