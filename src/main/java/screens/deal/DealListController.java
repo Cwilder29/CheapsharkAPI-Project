@@ -7,17 +7,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.DealParameters;
 import model.Deal;
 import model.Sort;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -27,9 +23,7 @@ import screens.SelectedController;
 import screens.screentypes.DealParametersScreen;
 import screens.screentypes.DealViewScreen;
 import screens.screentypes.MainMenuScreen;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -37,7 +31,19 @@ public class DealListController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML
-    private ListView<Deal> gameList;
+    private TableView<Deal> dealTable;
+
+    @FXML
+    private TableColumn<Deal, Float> retailColumn;
+
+    @FXML
+    private TableColumn<Deal, Float> saleColumn;
+
+    @FXML
+    private TableColumn<Deal, Double> savingsColumn;
+
+    @FXML
+    private TableColumn<Deal, String> titleColumn;
 
     private final DealParameters dealParameters;
     private ArrayList<Deal> deals;
@@ -50,7 +56,7 @@ public class DealListController implements Initializable, SelectedController {
     void clickGame(MouseEvent event) {
         Deal selectedGame;
         if (event.getClickCount() == 2) {
-            selectedGame = gameList.getSelectionModel().getSelectedItem();
+            selectedGame = dealTable.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
                 LOGGER.info("Loading information on <" + selectedGame.getTitle() + ">");
                 MainController.getInstance().switchView(new DealViewScreen().getScreenController(selectedGame, dealParameters));
@@ -115,11 +121,16 @@ public class DealListController implements Initializable, SelectedController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // 1. turn plain ol arraylist of models into an ObservableArrayList
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Deal, String>("title"));
+        savingsColumn.setCellValueFactory(new PropertyValueFactory<Deal, Double>("savings"));
+        saleColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("salePrice"));
+        retailColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("normalPrice"));
+
+        // 1. turn arraylist of models into an ObservableArrayList
         getDeals(dealParameters);
         ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
 
-        // 2. plug the observable array list into the list
-        gameList.setItems(tempList);
+        // 2. plug the observable array list into the table
+        dealTable.setItems(tempList);
     }
 }
