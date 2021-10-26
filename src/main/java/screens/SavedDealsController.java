@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import model.Deal;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -49,12 +50,27 @@ public class SavedDealsController implements Initializable, SelectedController{
     }
 
     @FXML
+    void exit(ActionEvent event) {
+        MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
+    }
+
+    @FXML
+    void nextPage(ActionEvent event) {
+        LOGGER.info("Loading next page...");
+    }
+
+    @FXML
     void deleteDeal(ActionEvent event) {
 
-        // TODO implement fetch deal by id. Then implement delete from mapping.
-
+        // TODO Then implement delete from mapping.
         int statusCode;
         InetAddress inetAddress = null;
+        Deal selectedDeal = gameList.getSelectionModel().getSelectedItem();
+        if (selectedDeal == null) {
+            LOGGER.error("No deal selected in menu!");
+            return;
+        }
+        LOGGER.info("Attempting to delete <" + selectedDeal.getTitle() + ">");
 
         try {
             inetAddress = InetAddress.getLocalHost();
@@ -67,17 +83,19 @@ public class SavedDealsController implements Initializable, SelectedController{
 
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet("http://" + ip + ":8080/deals"); // TODO change to variable
-            LOGGER.info("Connecting to " + ip + ":8080/deals");
-            CloseableHttpResponse response = httpclient.execute(getRequest);
+            HttpDelete deleteRequest = new HttpDelete("http://" + ip + ":8080/deals/" + selectedDeal.getDatabaseId()); // TODO change to variable
+            LOGGER.info("Connecting to " + ip + ":8080/deals/" + selectedDeal.getDatabaseId());
+            CloseableHttpResponse response = httpclient.execute(deleteRequest);
 
             statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 200)
-                LOGGER.info("Game deals successfully retrieved from Database: " + statusCode);
+            if (statusCode == 200) {
+                LOGGER.info("Deal successfully deleted from database: " + statusCode);
+                gameList.getItems().remove(selectedDeal);
+            }
             else {
-                LOGGER.error("Could not retrieve deals from CheapShark: " + statusCode);
-                Alerts.infoAlert("Error!", "Could not retrieve deals from Database: " + statusCode);
-                return null;
+                LOGGER.error("Could not retrieve delete deal from database: " + statusCode);
+                Alerts.infoAlert("Error!", "Could not retrieve delete deal from database: " + statusCode);
+                return;
             }
 
             HttpEntity entity = response.getEntity();
@@ -85,30 +103,11 @@ public class SavedDealsController implements Initializable, SelectedController{
             String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
             EntityUtils.consume(entity);
 
-            JSONArray objResponse = new JSONArray(strResponse);
-
-            for (Object game : objResponse) {
-                deals.add(Deal.fromJSONObject((JSONObject) game));
-            }
-
             response.close();
             httpclient.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        LOGGER.info(deals);
-        return deals;
-    }
-
-    @FXML
-    void exit(ActionEvent event) {
-        MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
-    }
-
-    @FXML
-    void nextPage(ActionEvent event) {
-        LOGGER.info("Loading next page...");
     }
 
     private ArrayList<Deal> fetchSavedDeals() {
@@ -125,7 +124,6 @@ public class SavedDealsController implements Initializable, SelectedController{
         LOGGER.info("IP Address:- " + inetAddress.getHostAddress());
         String ip = inetAddress.getHostAddress();
 
-
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
             HttpGet getRequest = new HttpGet("http://" + ip + ":8080/deals"); // TODO change to variable
@@ -149,7 +147,7 @@ public class SavedDealsController implements Initializable, SelectedController{
             JSONArray objResponse = new JSONArray(strResponse);
 
             for (Object game : objResponse) {
-                deals.add(Deal.fromJSONObject((JSONObject) game));
+                deals.add(Deal.fromJSONObjectDatabase((JSONObject) game));
             }
 
             response.close();

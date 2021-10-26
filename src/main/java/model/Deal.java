@@ -11,9 +11,24 @@ public class Deal {
     private double savings;
     private int metacriticRating;
     private int steamRating;
-
     private int storeId;
     private int gameId;
+
+    private int databaseId;
+
+    public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
+                int metacriticRating, int steamRating, int storeId, int gameId, int databaseId) {
+        this.title = title;
+        this.dealId = dealId;
+        this.salePrice = salePrice;
+        this.normalPrice = normalPrice;
+        this.savings = savings;
+        this.metacriticRating = metacriticRating;
+        this.steamRating = steamRating;
+        this.storeId = storeId;
+        this.gameId = gameId;
+        this.databaseId = databaseId;
+    }
 
     public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
                 int metacriticRating, int steamRating, int storeId, int gameId) {
@@ -41,12 +56,33 @@ public class Deal {
         }
     }
 
+    public static Deal fromJSONObjectDatabase(JSONObject json) {
+        try {
+            Deal deal = new Deal(json.getString("title"), json.getString("dealID"),
+                    json.getFloat("salePrice"), json.getFloat("normalPrice"),
+                    json.getDouble("savings"), json.getInt("metacriticScore"),
+                    json.getInt("steamRatingPercent"), json.getInt("storeID"),
+                    json.getInt("gameID"), json.getInt("id"));
+            return deal;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
+        }
+    }
+
     @Override
     public String toString() {
         return getTitle() + " (Store name)"; // TODO Find out how to get store name
     }
 
     // accessors
+    public int getDatabaseId() {
+        return databaseId;
+    }
+
+    public void setDatabaseId(int databaseId) {
+        this.databaseId = databaseId;
+    }
+
     public String getTitle() {
         return title;
     }
