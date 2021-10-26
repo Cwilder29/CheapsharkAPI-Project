@@ -2,7 +2,7 @@ package screens.screentypes;
 
 import javafx.fxml.FXMLLoader;
 import model.Deal;
-import screens.SavedDealViewController;
+import screens.save.SavedDealViewController;
 import screens.SelectedController;
 
 public class SavedDealViewScreen implements Screen {

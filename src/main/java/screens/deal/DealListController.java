@@ -1,5 +1,6 @@
 package screens.deal;
 
+import httpclient.GetRequest;
 import javafx.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -104,38 +105,11 @@ public class DealListController implements Initializable, SelectedController {
     }
 
     private ArrayList<Deal> fetchDeals(ArrayList<Deal> deals, String url) {
-        int statusCode;
+        String strResponse = new GetRequest().executeRequest(url);
+        JSONArray objResponse = new JSONArray(strResponse);
 
-        try {
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(url);
-            LOGGER.info("Connecting to:" + url);
-            CloseableHttpResponse response = httpclient.execute(getRequest);
-
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 200)
-                LOGGER.info("Game deals successfully retrieved from CheapShark: " + statusCode);
-            else {
-                LOGGER.error("Could not retrieve deals from CheapShark: " + statusCode);
-                Alerts.infoAlert("Error!", "Could not retrieve deals from Cheapshark: " + statusCode);
-                return deals;
-            }
-
-            HttpEntity entity = response.getEntity();
-            // use org.apache.http.util.EntityUtils to read json as string
-            String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-            EntityUtils.consume(entity);
-
-            JSONArray objResponse = new JSONArray(strResponse);
-
-            for (Object game : objResponse) {
-                deals.add(Deal.fromJSONObject((JSONObject) game));
-            }
-
-            response.close();
-            httpclient.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Object deal : objResponse) {
+            deals.add(Deal.fromJSONObject((JSONObject) deal));
         }
 
         return deals;
@@ -144,8 +118,8 @@ public class DealListController implements Initializable, SelectedController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // 1. turn plain ol arraylist of models into an ObservableArrayList
-        ArrayList<Deal> games = getDeals(dealParameters);
-        ObservableList<Deal> tempList = FXCollections.observableArrayList(games);
+        ArrayList<Deal> deals = getDeals(dealParameters);
+        ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
 
         // 2. plug the observable array list into the list
         gameList.setItems(tempList);

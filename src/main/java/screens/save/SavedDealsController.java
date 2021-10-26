@@ -1,4 +1,4 @@
-package screens;
+package screens.save;
 
 import javafx.Alerts;
 import javafx.collections.FXCollections;
@@ -20,6 +20,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import screens.MainController;
+import screens.SelectedController;
 import screens.screentypes.MainMenuScreen;
 import screens.screentypes.SavedDealViewScreen;
 
@@ -31,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class SavedDealsController implements Initializable, SelectedController{
+public class SavedDealsController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @FXML

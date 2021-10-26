@@ -1,5 +1,6 @@
 package screens.game;
 
+import httpclient.GetRequest;
 import javafx.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,7 +40,6 @@ public class GameListController implements Initializable, SelectedController {
 
     private String gameTitle;
     private ArrayList<Game> games;
-    private int statusCode;
 
     public GameListController(String gameTitle) {
         this.gameTitle = gameTitle;
@@ -49,35 +49,12 @@ public class GameListController implements Initializable, SelectedController {
         this.games = new ArrayList<>();
         String url = "https://www.cheapshark.com/api/1.0/games?title=" + this.gameTitle;
 
-        try {
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(url);
-            CloseableHttpResponse response = httpclient.execute(getRequest);
+        String strResponse = new GetRequest().executeRequest(url);
 
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 200)
-                LOGGER.info("Games successfully retrieved from CheapShark: " + statusCode);
-            else
-            {
-                LOGGER.error("Could not retrieve games from CheapShark: " + statusCode);
-                return;
-            }
+        JSONArray objResponse = new JSONArray(strResponse);
 
-            HttpEntity entity = response.getEntity();
-            // use org.apache.http.util.EntityUtils to read json as string
-            String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-            EntityUtils.consume(entity);
-
-            JSONArray objResponse = new JSONArray(strResponse);
-
-            for (Object game : objResponse) {
-                games.add(Game.fromJSONObject((JSONObject) game));
-            }
-
-            response.close();
-            httpclient.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Object game : objResponse) {
+            games.add(Game.fromJSONObject((JSONObject) game));
         }
     }
 
@@ -110,13 +87,8 @@ public class GameListController implements Initializable, SelectedController {
 
         getGameDeals();
 
-        if (statusCode == 200) {
-            ObservableList<Game> tempList = FXCollections.observableArrayList(games);
-            // plug the observable array list into the list
-            gameList.setItems(tempList);
-        }
-        else {
-            Alerts.infoAlert("Error!", "Could not retrieve games from CheapShark: " + statusCode);
-        }
+        ObservableList<Game> tempList = FXCollections.observableArrayList(games);
+        // plug the observable array list into the list
+        gameList.setItems(tempList);
     }
 }

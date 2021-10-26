@@ -1,10 +1,8 @@
 package screens.screentypes;
 
 import javafx.fxml.FXMLLoader;
-import model.DealParameters;
-import screens.SavedDealsController;
+import screens.save.SavedDealsController;
 import screens.SelectedController;
-import screens.deal.DealListController;
 
 public class SavedDealsScreen implements Screen {
     @Override

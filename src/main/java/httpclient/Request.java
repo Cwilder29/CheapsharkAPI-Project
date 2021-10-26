@@ -1,2 +1,5 @@
-package httpclient;public interface Request {
+package httpclient;
+
+public interface Request {
+    String executeRequest(String url);
 }

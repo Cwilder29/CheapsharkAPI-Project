@@ -28,6 +28,7 @@
             <Label layoutX="166.0" layoutY="239.0" text="Retail Price" />
             <Label layoutX="175.0" layoutY="297.0" text="Savings" />
             <ComboBox fx:id="fxStore" layoutX="237.0" layoutY="101.0" onAction="#changeStore" prefWidth="150.0" />
+            <Button layoutX="17.0" layoutY="361.0" mnemonicParsing="false" onAction="#saveGame" text="Save" />
          </children>
       </AnchorPane>
    </center>

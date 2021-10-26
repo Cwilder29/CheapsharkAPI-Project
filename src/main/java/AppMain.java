@@ -16,6 +16,7 @@ public class AppMain extends Application {
 
     @Override
     public void init() throws Exception {
+        // TODO Retrieve Stores?
         super.init();
     }
 

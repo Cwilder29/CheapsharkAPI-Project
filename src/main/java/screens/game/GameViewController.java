@@ -1,5 +1,6 @@
 package screens.game;
 
+import httpclient.GetRequest;
 import javafx.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -79,35 +80,19 @@ public class GameViewController implements Initializable, SelectedController {
         getGamePrices();
     }
 
+    @FXML
+    void saveGame(ActionEvent event) {
+        // TODO do a deal lookup through cheapshark
+        // TODO save deal to database
+        LOGGER.info("Saving into database...");
+    }
+
     public void viewGame (Game game) {
         String url = "https://www.cheapshark.com/api/1.0/games?id=" + game.getGameId();
-        try {
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(url);
-            CloseableHttpResponse response = httpclient.execute(getRequest);
 
-            statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 200)
-                LOGGER.info("Game successfully retrieved from CheapShark: " + statusCode);
-            else {
-                LOGGER.error("Could not retrieve game from CheapShark: " + statusCode);
-                response.close();
-                httpclient.close();
-                this.gameDetails = null;
-                return;
-            }
-            HttpEntity entity = response.getEntity();
-            // use org.apache.http.util.EntityUtils to read json as string
-            String strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-            EntityUtils.consume(entity);
+        String strResponse = new GetRequest().executeRequest(url);
 
-            this.gameDetails = new JSONObject(strResponse);
-
-            response.close();
-            httpclient.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.gameDetails = new JSONObject(strResponse);
     }
 
     private int getDealWebsite (JSONObject json) {

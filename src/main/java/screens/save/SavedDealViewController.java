@@ -1,4 +1,4 @@
-package screens;
+package screens.save;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import model.Deal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import screens.MainController;
+import screens.SelectedController;
 import screens.screentypes.DealListScreen;
 import screens.screentypes.SavedDealsScreen;
 
