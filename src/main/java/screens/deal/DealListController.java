@@ -36,10 +36,11 @@ import java.util.ResourceBundle;
 public class DealListController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final DealParameters dealParameters;
-
     @FXML
     private ListView<Deal> gameList;
+
+    private final DealParameters dealParameters;
+    private ArrayList<Deal> deals;
 
     public DealListController(DealParameters dealParameters) {
         this.dealParameters = dealParameters;
@@ -72,13 +73,21 @@ public class DealListController implements Initializable, SelectedController {
         MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
     }
 
-    public ArrayList<Deal> getDeals(DealParameters dealParameters) {
-        ArrayList<Deal> deals = new ArrayList<>();
+    public void getDeals(DealParameters dealParameters) {
+        deals = new ArrayList<>();
         String url = createGetRequest();
+        String strResponse;
 
         LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
+        strResponse = new GetRequest().executeRequest(url, "");
 
-        return fetchDeals(deals, url);
+        if (strResponse != null) {
+            JSONArray objResponse = new JSONArray(strResponse);
+
+            for (Object deal : objResponse) {
+                deals.add(Deal.fromJSONObject((JSONObject) deal));
+            }
+        }
     }
 
     private String createGetRequest() {
@@ -104,21 +113,10 @@ public class DealListController implements Initializable, SelectedController {
         return url;
     }
 
-    private ArrayList<Deal> fetchDeals(ArrayList<Deal> deals, String url) {
-        String strResponse = new GetRequest().executeRequest(url, "");
-        JSONArray objResponse = new JSONArray(strResponse);
-
-        for (Object deal : objResponse) {
-            deals.add(Deal.fromJSONObject((JSONObject) deal));
-        }
-
-        return deals;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // 1. turn plain ol arraylist of models into an ObservableArrayList
-        ArrayList<Deal> deals = getDeals(dealParameters);
+        getDeals(dealParameters);
         ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
 
         // 2. plug the observable array list into the list

@@ -3,7 +3,7 @@ package httpclient;
 import javafx.Alerts;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -13,20 +13,20 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class GetRequest implements Request {
+public class DeleteRequest implements Request {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public String executeRequest(String url, String body) {
         int statusCode;
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet getRequest = new HttpGet(url);
+        HttpDelete deleteRequest = new HttpDelete(url);
         CloseableHttpResponse response;
         String strResponse;
 
         try {
             LOGGER.info("Connecting...");
-            response = httpclient.execute(getRequest);
+            response = httpclient.execute(deleteRequest);
             statusCode = response.getStatusLine().getStatusCode();
 
             if (statusCode == 200) {

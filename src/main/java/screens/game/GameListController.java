@@ -51,10 +51,12 @@ public class GameListController implements Initializable, SelectedController {
 
         String strResponse = new GetRequest().executeRequest(url, "");
 
-        JSONArray objResponse = new JSONArray(strResponse);
+        if (strResponse != null) {
+            JSONArray objResponse = new JSONArray(strResponse);
 
-        for (Object game : objResponse) {
-            games.add(Game.fromJSONObject((JSONObject) game));
+            for (Object game : objResponse) {
+                games.add(Game.fromJSONObject((JSONObject) game));
+            }
         }
     }
 

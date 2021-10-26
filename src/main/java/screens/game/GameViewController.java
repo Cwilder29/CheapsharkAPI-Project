@@ -92,7 +92,8 @@ public class GameViewController implements Initializable, SelectedController {
 
         String strResponse = new GetRequest().executeRequest(url, "");
 
-        this.gameDetails = new JSONObject(strResponse);
+        if (strResponse != null)
+            this.gameDetails = new JSONObject(strResponse);
     }
 
     private int getDealWebsite (JSONObject json) {
