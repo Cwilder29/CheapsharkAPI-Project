@@ -9,6 +9,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Deal;
 import org.apache.http.HttpEntity;
@@ -38,14 +41,29 @@ import java.util.ResourceBundle;
 public class SavedDealsController implements Initializable, SelectedController {
     private static final Logger LOGGER = LogManager.getLogger();
 
+//    @FXML
+//    private ListView<Deal> gameList;
+
     @FXML
-    private ListView<Deal> gameList;
+    private TableView<Deal> dealTable;
+
+    @FXML
+    private TableColumn<Deal, Float> retailColumn;
+
+    @FXML
+    private TableColumn<Deal, Float> saleColumn;
+
+    @FXML
+    private TableColumn<Deal, Double> savingsColumn;
+
+    @FXML
+    private TableColumn<Deal, String> titleColumn;
 
     @FXML
     void clickGame(MouseEvent event) {
         Deal selectedDeal;
         if (event.getClickCount() == 2) {
-            selectedDeal = gameList.getSelectionModel().getSelectedItem();
+            selectedDeal = dealTable.getSelectionModel().getSelectedItem();
             if (selectedDeal != null) {
                 LOGGER.info("Loading information on <" + selectedDeal.getTitle() + ">");
                 MainController.getInstance().switchView(new SavedDealViewScreen().getScreenController(selectedDeal));
@@ -66,7 +84,7 @@ public class SavedDealsController implements Initializable, SelectedController {
     @FXML
     void deleteDeal(ActionEvent event) {
         InetAddress inetAddress = null;
-        Deal selectedDeal = gameList.getSelectionModel().getSelectedItem();
+        Deal selectedDeal = dealTable.getSelectionModel().getSelectedItem();
         String strResponse;
 
         if (selectedDeal == null) {
@@ -88,7 +106,7 @@ public class SavedDealsController implements Initializable, SelectedController {
         strResponse = new DeleteRequest().executeRequest(url, "");
 
         if (strResponse != null) {
-            gameList.getItems().remove(selectedDeal);
+            dealTable.getItems().remove(selectedDeal);
         }
     }
 
@@ -113,8 +131,8 @@ public class SavedDealsController implements Initializable, SelectedController {
         else {
             JSONArray objResponse = new JSONArray(strResponse);
 
-            for (Object game : objResponse) {
-                deals.add(Deal.fromJSONObjectDatabase((JSONObject) game));
+            for (Object deal : objResponse) {
+                deals.add(Deal.fromJSONObjectDatabase((JSONObject) deal));
             }
 
             LOGGER.info(deals);
@@ -125,13 +143,17 @@ public class SavedDealsController implements Initializable, SelectedController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Deal> deals = fetchSavedDeals();
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Deal, String>("title"));
+        savingsColumn.setCellValueFactory(new PropertyValueFactory<Deal, Double>("savings"));
+        saleColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("salePrice"));
+        retailColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("normalPrice"));
 
         if (deals == null) {
             Alerts.infoAlert("Error!", "Could not load saved deals!");
         }
         else {
             ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
-            gameList.setItems(tempList);
+            dealTable.setItems(tempList);
         }
     }
 }

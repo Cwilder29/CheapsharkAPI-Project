@@ -71,7 +71,7 @@ public class Deal {
 
     @Override
     public String toString() {
-        return getTitle() + " (Store name)"; // TODO Find out how to get store name
+        return getTitle(); // TODO Find out how to get store name
     }
 
     // accessors

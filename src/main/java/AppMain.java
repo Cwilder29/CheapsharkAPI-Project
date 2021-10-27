@@ -16,12 +16,14 @@ public class AppMain extends Application {
 
     @Override
     public void init() throws Exception {
-        // TODO Retrieve Stores?
+        // TODO Add all stores to the database?
+        LOGGER.info("Start of the program?");
         super.init();
     }
 
     @Override
     public void stop() throws Exception {
+        // TODO Delete all stores in the database?
         super.stop();
     }
 

@@ -1,7 +1,6 @@
 package screens.deal;
 
 import httpclient.GetRequest;
-import javafx.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

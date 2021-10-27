@@ -10,9 +10,9 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="456.0" layoutY="367.0" mnemonicParsing="false" onAction="#exit" text="Return to Main Menu" />
-            <Button layoutX="300.0" layoutY="367.0" mnemonicParsing="false" onAction="#newSearch" text="Choose New Parameters" />
-            <Button layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#nextPage" text="Next Page" />
+            <Button layoutX="470.0" layoutY="367.0" mnemonicParsing="false" onAction="#exit" text="Return to Main Menu" />
+            <Button layoutX="316.0" layoutY="367.0" mnemonicParsing="false" onAction="#newSearch" text="Choose New Parameters" />
+            <Button layoutY="367.0" mnemonicParsing="false" onAction="#nextPage" text="Next Page" />
             <TableView fx:id="dealTable" onMouseClicked="#clickGame" prefHeight="360.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="337.0" text="Title" />
