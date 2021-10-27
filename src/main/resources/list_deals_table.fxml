@@ -12,8 +12,8 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="470.0" layoutY="367.0" mnemonicParsing="false" onAction="#exit" text="Return to Main Menu" />
-            <Button layoutX="316.0" layoutY="367.0" mnemonicParsing="false" onAction="#newSearch" text="Choose New Parameters" />
-            <Button layoutY="367.0" mnemonicParsing="false" onAction="#nextPage" text="Next Page" />
+            <Button layoutX="359.0" layoutY="367.0" mnemonicParsing="false" onAction="#newSearch" text="New Parameters" />
+            <Button layoutX="99.0" layoutY="367.0" mnemonicParsing="false" onAction="#nextPage" text="Next Page" />
             <TableView fx:id="dealTable" onMouseClicked="#clickGame" prefHeight="360.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="337.0" text="Title" />
@@ -22,7 +22,8 @@
                   <TableColumn fx:id="retailColumn" prefWidth="98.0" text="Retail Price" />
               </columns>
             </TableView>
-            <Label fx:id="pageNumberLabel" layoutX="77.0" layoutY="371.0" text="Page Number" />
+            <Label fx:id="pageNumberLabel" layoutX="182.0" layoutY="371.0" text="Page Number" />
+            <Button layoutY="367.0" mnemonicParsing="false" onAction="#previousPage" prefHeight="25.0" prefWidth="93.0" text="Previous Page" />
          </children>
       </AnchorPane>
    </center>

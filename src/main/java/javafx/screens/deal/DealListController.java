@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.model.DealParameters;
 import javafx.model.Deal;
 import javafx.model.Sort;
+import javafx.utils.Alerts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -66,6 +68,27 @@ public class DealListController implements Initializable, SelectedController {
     @FXML
     void nextPage(ActionEvent event) {
         LOGGER.info("Loading next page...");
+        if (dealParameters.getPageNumber() < totalPageNumber) {
+            dealParameters.setPageNumber(dealParameters.getPageNumber() + 1);
+            getDeals();
+            ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
+            dealTable.setItems(tempList);
+        }
+        else
+            LOGGER.error("Page number cannot be greater than totalPageNumber!");
+    }
+
+    @FXML
+    void previousPage(ActionEvent event) {
+        LOGGER.info("Loading previous page...");
+        if (dealParameters.getPageNumber() > 0) {
+            dealParameters.setPageNumber(dealParameters.getPageNumber() - 1);
+            getDeals();
+            ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
+            dealTable.setItems(tempList);
+        }
+        else
+            LOGGER.error("Page number cannot be less than 0!");
     }
 
     @FXML
@@ -78,7 +101,7 @@ public class DealListController implements Initializable, SelectedController {
         MainController.getInstance().switchView(new MainMenuScreen().getScreenController());
     }
 
-    public void getDeals(DealParameters dealParameters) {
+    public void getDeals() {
         deals = new ArrayList<>();
         String url = createGetRequest();
         GetRequest request = new GetRequest();
@@ -93,8 +116,8 @@ public class DealListController implements Initializable, SelectedController {
             for (Object deal : objResponse) {
                 deals.add(Deal.fromJSONObject((JSONObject) deal));
             }
-            pageNumberLabel.setText(String.valueOf(request.getTotalPageCount()));
             totalPageNumber = request.getTotalPageCount();
+            pageNumberLabel.setText((dealParameters.getPageNumber() + 1) + " / " + (totalPageNumber + 1));
         }
     }
 
@@ -113,6 +136,10 @@ public class DealListController implements Initializable, SelectedController {
             url = url + "&steamRating=" + dealParameters.getSteamRating();
             LOGGER.info("Minimum Steam rating set: " + dealParameters.getSteamRating());
         }
+        if (dealParameters.getPageNumber() != 0) {
+            url = url + "&pageNumber=" + dealParameters.getPageNumber();
+            LOGGER.info("Page set to: " + dealParameters.getPageNumber());
+        }
         if (dealParameters.getOnlyAAA())
             url = url + "&AAA=1";
         if (dealParameters.getOnlySale())
@@ -129,7 +156,7 @@ public class DealListController implements Initializable, SelectedController {
         retailColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("normalPrice"));
 
         // 1. turn arraylist of models into an ObservableArrayList
-        getDeals(dealParameters);
+        getDeals();
         ObservableList<Deal> tempList = FXCollections.observableArrayList(deals);
 
         // 2. plug the observable array list into the table

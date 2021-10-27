@@ -74,6 +74,9 @@ public class DealParametersController implements Initializable, SelectedControll
         if (setRating(steamRating, "Steam") == -1)
             return;
 
+        //Set page number
+        dealParameters.setPageNumber(0);
+
         // Set AAA Flag
         showOnlyAAA();
 
@@ -88,9 +91,6 @@ public class DealParametersController implements Initializable, SelectedControll
                 MainController.getInstance().switchView(new DealListScreen().getScreenController(dealParameters));
             }
         }
-
-        // Set page number
-
     }
 
     // Helper methods for setting up search parameters
