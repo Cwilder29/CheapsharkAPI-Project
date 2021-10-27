@@ -29,6 +29,7 @@
             <Label layoutX="175.0" layoutY="297.0" text="Savings" />
             <ComboBox fx:id="fxStore" layoutX="237.0" layoutY="101.0" onAction="#changeStore" prefWidth="150.0" />
             <Button layoutX="17.0" layoutY="361.0" mnemonicParsing="false" onAction="#saveGame" text="Save" />
+            <Label fx:id="fxSave" layoutX="69.0" layoutY="365.0" prefHeight="17.0" prefWidth="0.0" />
          </children>
       </AnchorPane>
    </center>

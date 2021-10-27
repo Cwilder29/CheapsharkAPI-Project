@@ -1,6 +1,8 @@
 package javafx.screens.game;
 
 import javafx.httpclient.GetRequest;
+import javafx.httpclient.PostRequest;
+import javafx.scene.paint.Color;
 import javafx.utils.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +22,9 @@ import javafx.screens.RetrieveStores;
 import javafx.screens.screentypes.GameListScreen;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -37,6 +41,8 @@ public class GameViewController implements Initializable, SelectedController {
     private TextField fxRetailPrice;
     @FXML
     private TextField fxSavings;
+    @FXML
+    private Label fxSave;
 
     private Game game;
     private ArrayList<Store> stores;
@@ -75,9 +81,53 @@ public class GameViewController implements Initializable, SelectedController {
 
     @FXML
     void saveGame(ActionEvent event) {
-        // TODO do a deal lookup through cheapshark
-        // TODO save deal to database
+        GetRequest request = new GetRequest();
+        String strResponse;
+        String url = "https://www.cheapshark.com/api/1.0/deals?id=" + dealId;
+
+        strResponse = request.executeRequest(url, "");
+
+        JSONObject jsonResponse = new JSONObject(strResponse);
+
+        JSONObject lookupData = new JSONObject(jsonResponse.getJSONObject("gameInfo").toString());
+
         LOGGER.info("Saving into database...");
+        InetAddress inetAddress = null;
+
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return;
+        }
+        LOGGER.info("IP Address:- " + inetAddress.getHostAddress());
+        String ip = inetAddress.getHostAddress();
+        url = "http://" + ip + ":8080/deals";
+
+        JSONObject dealData = new JSONObject();
+
+        dealData.put("title", lookupData.getString("name"));
+        dealData.put("dealID", dealId);
+        dealData.put("salePrice", lookupData.getFloat("salePrice"));
+        dealData.put("normalPrice", lookupData.getFloat("retailPrice"));
+        dealData.put("gameID", game.getGameId());
+        dealData.put("storeID", lookupData.getInt("storeID"));
+        dealData.put("savings", game.getSavings());
+        dealData.put("metacriticScore", lookupData.getInt("metacriticScore"));
+        dealData.put("steamRatingPercent", lookupData.getInt("steamRatingPercent"));
+        dealData.put("thumb", lookupData.getString("thumb"));
+        String dealDataString = dealData.toString();
+
+        strResponse = new PostRequest().executeRequest(url, dealDataString);
+
+        if (strResponse != null) {
+            fxSave.setText("Deal saved!");
+            fxSave.setTextFill(Color.web("#38BC00"));
+        }
+        else {
+            fxSave.setText("Did not save!");
+            fxSave.setTextFill(Color.web("#FF0000"));
+        }
     }
 
     public void viewGame (Game game) {
@@ -115,6 +165,7 @@ public class GameViewController implements Initializable, SelectedController {
                 fxPrice.setText(((JSONObject) dealSite).getString("price"));
                 fxRetailPrice.setText(((JSONObject) dealSite).getString("retailPrice"));
                 fxSavings.setText(checkSavings(((JSONObject) dealSite).getString("savings")));
+                game.setSavings(((JSONObject) dealSite).getFloat("savings"));
                 dealId = ((JSONObject) dealSite).getString("dealID");
                 break;
             }

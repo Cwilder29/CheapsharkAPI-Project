@@ -6,6 +6,8 @@ public class Game {
     private int gameId;
     private int steamAppId;
     private float cheapestPrice;
+    private float savings;
+
     private String cheapestDealId;
     private String gameTitle;
 
@@ -70,5 +72,13 @@ public class Game {
 
     public void setGameTitle(String gameTitle) {
         this.gameTitle = gameTitle;
+    }
+
+    public float getSavings() {
+        return savings;
+    }
+
+    public void setSavings(float savings) {
+        this.savings = savings;
     }
 }
