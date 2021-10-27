@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,21 +32,20 @@ public class DealListController implements Initializable, SelectedController {
 
     @FXML
     private TableView<Deal> dealTable;
-
     @FXML
     private TableColumn<Deal, Float> retailColumn;
-
     @FXML
     private TableColumn<Deal, Float> saleColumn;
-
     @FXML
     private TableColumn<Deal, Double> savingsColumn;
-
     @FXML
     private TableColumn<Deal, String> titleColumn;
+    @FXML
+    private Label pageNumberLabel;
 
     private final DealParameters dealParameters;
     private ArrayList<Deal> deals;
+    private int totalPageNumber;
 
     public DealListController(DealParameters dealParameters) {
         this.dealParameters = dealParameters;
@@ -81,10 +81,11 @@ public class DealListController implements Initializable, SelectedController {
     public void getDeals(DealParameters dealParameters) {
         deals = new ArrayList<>();
         String url = createGetRequest();
+        GetRequest request = new GetRequest();
         String strResponse;
 
         LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
-        strResponse = new GetRequest().executeRequest(url, "");
+        strResponse = request.executeRequest(url, "");
 
         if (strResponse != null) {
             JSONArray objResponse = new JSONArray(strResponse);
@@ -92,6 +93,8 @@ public class DealListController implements Initializable, SelectedController {
             for (Object deal : objResponse) {
                 deals.add(Deal.fromJSONObject((JSONObject) deal));
             }
+            pageNumberLabel.setText(String.valueOf(request.getTotalPageCount()));
+            totalPageNumber = request.getTotalPageCount();
         }
     }
 

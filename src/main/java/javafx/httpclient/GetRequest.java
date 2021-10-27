@@ -1,6 +1,7 @@
 package javafx.httpclient;
 
 import javafx.utils.Alerts;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,9 +13,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class GetRequest implements Request {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    private int totalPageCount;
 
     @Override
     public String executeRequest(String url, String body) {
@@ -23,6 +27,7 @@ public class GetRequest implements Request {
         HttpGet getRequest = new HttpGet(url);
         CloseableHttpResponse response;
         String strResponse;
+        Header[] headerArray;
 
         try {
             LOGGER.info("Connecting...");
@@ -34,6 +39,16 @@ public class GetRequest implements Request {
                 HttpEntity entity = response.getEntity();
                 strResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
                 EntityUtils.consume(entity);
+
+                headerArray = response.getAllHeaders();
+
+                for (Header header : headerArray) {
+                    if (header.getName().equals("X-Total-Page-Count")) {
+                        LOGGER.info(header.getName());
+                        LOGGER.info(header.getValue());
+                        this.setTotalPageCount(Integer.parseInt(header.getValue()));
+                    }
+                }
 
                 response.close();
                 httpclient.close();
@@ -57,5 +72,13 @@ public class GetRequest implements Request {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public int getTotalPageCount() {
+        return totalPageCount;
+    }
+
+    public void setTotalPageCount(int totalPageCount) {
+        this.totalPageCount = totalPageCount;
     }
 }

@@ -50,6 +50,8 @@ public class DealParametersController implements Initializable, SelectedControll
         String storeName = storeSelection.getSelectionModel().getSelectedItem();
         String sortType = sortSelection.getSelectionModel().getSelectedItem();
 
+        // TODO implement interface for all parameters
+
         // Check if no store is selected
         if (storeSelection.getSelectionModel().getSelectedItem() == null) {
             LOGGER.error("No store selected!");
@@ -86,6 +88,9 @@ public class DealParametersController implements Initializable, SelectedControll
                 MainController.getInstance().switchView(new DealListScreen().getScreenController(dealParameters));
             }
         }
+
+        // Set page number
+
     }
 
     // Helper methods for setting up search parameters
