@@ -13,11 +13,12 @@ public class Deal {
     private int steamRating;
     private int storeId;
     private int gameId;
+    private String imageLink;
 
     private int databaseId;
 
     public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
-                int metacriticRating, int steamRating, int storeId, int gameId, int databaseId) {
+                int metacriticRating, int steamRating, int storeId, int gameId, String imageLink, int databaseId) {
         this.title = title;
         this.dealId = dealId;
         this.salePrice = salePrice;
@@ -27,11 +28,12 @@ public class Deal {
         this.steamRating = steamRating;
         this.storeId = storeId;
         this.gameId = gameId;
+        this.imageLink = imageLink;
         this.databaseId = databaseId;
     }
 
     public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
-                int metacriticRating, int steamRating, int storeId, int gameId) {
+                int metacriticRating, int steamRating, int storeId, int gameId, String imageLink) {
         this.title = title;
         this.dealId = dealId;
         this.salePrice = salePrice;
@@ -41,6 +43,7 @@ public class Deal {
         this.steamRating = steamRating;
         this.storeId = storeId;
         this.gameId = gameId;
+        this.imageLink = imageLink;
     }
 
     public static Deal fromJSONObject(JSONObject json) {
@@ -49,7 +52,7 @@ public class Deal {
                                  json.getFloat("salePrice"), json.getFloat("normalPrice"),
                                  json.getDouble("savings"), json.getInt("metacriticScore"),
                                  json.getInt("steamRatingPercent"), json.getInt("storeID"),
-                                 json.getInt("gameID"));
+                                 json.getInt("gameID"), json.getString("thumb"));
             return deal;
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
@@ -62,7 +65,7 @@ public class Deal {
                     json.getFloat("salePrice"), json.getFloat("normalPrice"),
                     json.getDouble("savings"), json.getInt("metacriticScore"),
                     json.getInt("steamRatingPercent"), json.getInt("storeID"),
-                    json.getInt("gameID"), json.getInt("id"));
+                    json.getInt("gameID"), json.getString("thumb"), json.getInt("id"));
             return deal;
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
@@ -153,5 +156,13 @@ public class Deal {
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 }

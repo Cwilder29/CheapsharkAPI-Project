@@ -4,8 +4,11 @@ import javafx.httpclient.PostRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.model.DealParameters;
 import javafx.model.Deal;
@@ -27,6 +30,8 @@ public class DealViewController implements Initializable, SelectedController {
 
     @FXML
     private Label fxTitle;
+    @FXML
+    private ImageView fxImage;
     @FXML
     private TextField fxSalePrice;
     @FXML
@@ -88,6 +93,7 @@ public class DealViewController implements Initializable, SelectedController {
         dealData.put("savings", deal.getSavings());
         dealData.put("metacriticScore", deal.getMetacriticRating());
         dealData.put("steamRatingPercent", deal.getSteamRating());
+        dealData.put("thumb", deal.getImageLink());
         String dealDataString = dealData.toString();
 
         strResponse = new PostRequest().executeRequest(url, dealDataString);
@@ -120,7 +126,10 @@ public class DealViewController implements Initializable, SelectedController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Image thumbnail = new Image(deal.getImageLink());
+
         fxTitle.setText(deal.getTitle());
+        fxImage.setImage(thumbnail);
         fxSalePrice.setText(String.valueOf(deal.getSalePrice()));
         fxNormalPrice.setText(String.valueOf(deal.getNormalPrice()));
         fxSaving.setText(checkSavings(deal.getSavings()));

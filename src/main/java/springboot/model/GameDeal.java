@@ -37,6 +37,9 @@ public class GameDeal {
     @Column(name = "steam_rating_percent", nullable = true)
     private int steamRatingPercent;
 
+    @Column(name = "thumb", nullable = true)
+    private String thumb;
+
     public GameDeal() {
     }
 
@@ -53,6 +56,7 @@ public class GameDeal {
                 ", savings=" + savings +
                 ", metacriticScore=" + metacriticScore +
                 ", steamRatingPercent=" + steamRatingPercent +
+                ", thumb='" + thumb + '\'' +
                 '}';
     }
 
@@ -135,5 +139,13 @@ public class GameDeal {
 
     public void setSteamRatingPercent(int steamRatingPercent) {
         this.steamRatingPercent = steamRatingPercent;
+    }
+
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
     }
 }

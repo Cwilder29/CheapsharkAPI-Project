@@ -6,6 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.model.Deal;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.screens.MainController;
@@ -21,6 +23,8 @@ public class SavedDealViewController implements Initializable, SelectedControlle
 
     @FXML
     private Label fxTitle;
+    @FXML
+    private ImageView fxImage;
     @FXML
     private TextField fxSalePrice;
     @FXML
@@ -71,7 +75,10 @@ public class SavedDealViewController implements Initializable, SelectedControlle
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Image thumbnail = new Image(deal.getImageLink());
+
         fxTitle.setText(deal.getTitle());
+        fxImage.setImage(thumbnail);
         fxSalePrice.setText(String.valueOf(deal.getSalePrice()));
         fxNormalPrice.setText(String.valueOf(deal.getNormalPrice()));
         fxSaving.setText(checkSavings(deal.getSavings()));
