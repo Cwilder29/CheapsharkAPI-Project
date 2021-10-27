@@ -9,9 +9,9 @@ public class DealParameters {
     private Boolean onlySale;
     private int MetacriticRating;
     private int SteamRating;
+    private int pageNumber;
 
     // Not Implemented
-    private int pageNumber;
     private int pageSize;
     private int lowerPrice;
     private boolean sortDirection;

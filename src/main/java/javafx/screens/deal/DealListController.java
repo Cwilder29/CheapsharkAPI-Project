@@ -125,6 +125,11 @@ public class DealListController implements Initializable, SelectedController {
         String url = "https://www.cheapshark.com/api/1.0/deals?";
         url = url + "storeID=" + dealParameters.getStore().getStoreId();
         url = url + "&upperPrice=" + dealParameters.getUpperPrice();
+
+        if(!dealParameters.getTitle().isEmpty()) {
+            url = url + "&title=" + dealParameters.getTitle();
+        }
+
         if(!(dealParameters.getSortBy().equals(Sort.DEAL_RATING)))
             url = url + "&sortBy=" + dealParameters.getSortBy().getSortName();
 

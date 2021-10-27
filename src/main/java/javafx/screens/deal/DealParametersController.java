@@ -27,6 +27,8 @@ public class DealParametersController implements Initializable, SelectedControll
     @FXML
     private ChoiceBox<String> storeSelection;
     @FXML
+    private TextField gameTitle;
+    @FXML
     private TextField priceSelection;
     @FXML
     private ChoiceBox<String> sortSelection;
@@ -58,6 +60,13 @@ public class DealParametersController implements Initializable, SelectedControll
             Alerts.infoAlert("No store selected!", "Please select a store to pull deals from.");
             return;
         }
+
+        // Game Title/Name
+        if (!gameTitle.getText().isEmpty()) {
+            dealParameters.setTitle(gameTitle.getText().replaceAll("\\s+",""));
+        }
+        else
+            dealParameters.setTitle("");
 
         // Get user max price
         if (setUpperPrice() != 0)
