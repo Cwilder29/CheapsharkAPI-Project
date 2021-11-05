@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import springboot.model.GameDeal;
 import springboot.repository.GameDealRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,5 +92,14 @@ public class GameDealController {
             return new ResponseEntity<>("", HttpStatus.valueOf(200));
         } else
             return new ResponseEntity<>("", HttpStatus.valueOf(404));
+    }
+
+    @PostMapping("/deals/{id}")
+    public ResponseEntity<?> insertStores(@RequestBody ArrayList<GameDeal> dealList) {
+        gameDealRepository.saveAll(dealList);
+        // TODO save store list
+        //  insert if store doesn't exists?
+        //  update if different
+        return new ResponseEntity<>("", HttpStatus.valueOf(200));
     }
 }
