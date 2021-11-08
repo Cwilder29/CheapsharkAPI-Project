@@ -93,13 +93,4 @@ public class GameDealController {
         } else
             return new ResponseEntity<>("", HttpStatus.valueOf(404));
     }
-
-    @PostMapping("/deals/{id}")
-    public ResponseEntity<?> insertStores(@RequestBody ArrayList<GameDeal> dealList) {
-        gameDealRepository.saveAll(dealList);
-        // TODO save store list
-        //  insert if store doesn't exists?
-        //  update if different
-        return new ResponseEntity<>("", HttpStatus.valueOf(200));
-    }
 }
