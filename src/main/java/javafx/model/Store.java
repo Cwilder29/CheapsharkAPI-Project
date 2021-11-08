@@ -81,7 +81,17 @@ public class Store {
             return store;
         } catch (Exception e) {
             System.out.println(e);
-            throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
+            throw new IllegalArgumentException("Unable to parse store from provided json:\n " + json.toString());
+        }
+    }
+
+    public static Store fromJSONObjectDatabase(JSONObject json) {
+        try {
+            Store store = new Store(json.getInt("id"), json.getString("storeName"), json.getInt("storeActive"));
+            return store;
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new IllegalArgumentException("Unable to parse store from provided json:\n " + json.toString());
         }
     }
 

@@ -1,5 +1,6 @@
 package javafx.screens.deal;
 
+import javafx.httpclient.GetRequest;
 import javafx.utils.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,8 +17,12 @@ import javafx.screens.MainController;
 import javafx.screens.SelectedController;
 import javafx.screens.RetrieveStores;
 import javafx.screens.screentypes.DealListScreen;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -193,18 +198,54 @@ public class DealParametersController implements Initializable, SelectedControll
             dealParameters.setOnlySale(false);
     }
 
+    private void retrieveStores() {
+        InetAddress inetAddress = null;
+        String strResponse;
+        JSONArray objResponse;
+
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String url = "http://" + inetAddress.getHostAddress() + ":8080/stores";
+
+        strResponse = new GetRequest().executeRequest(url, "");
+        if (strResponse != null) {
+            objResponse = new JSONArray(strResponse);
+
+            for (Object store : objResponse) {
+                stores.add(Store.fromJSONObjectDatabase((JSONObject) store));
+            }
+        }
+        else
+            stores = null;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        stores = RetrieveStores.retrieveStores();
+        //stores = RetrieveStores.retrieveStores();
+        retrieveStores();
 
-        for (Store store : stores) {
-            storeSelection.getItems().add(store.getStoreName());
+        if (stores != null) {
+            for (Store store : stores) {
+                if (store.getStoreActive() == 1) {
+                    storeSelection.getItems().add(store.getStoreName());
+                }
+            }
+
+            for (Sort sortType : Sort.values()) {
+                sortSelection.getItems().add(sortType.getSortName());
+            }
+            storeSelection.getSelectionModel().selectFirst();
+            sortSelection.getSelectionModel().selectFirst();
+        }
+        else {
+            LOGGER.error("Could not retrieve stores from the database!");
+            Alerts.infoAlert("Error!", "Could not retrieve stores from the database!");
         }
 
-        for (Sort sortType : Sort.values()) {
-            sortSelection.getItems().add(sortType.getSortName());
-        }
-        storeSelection.getSelectionModel().selectFirst();
-        sortSelection.getSelectionModel().selectFirst();
     }
 }
