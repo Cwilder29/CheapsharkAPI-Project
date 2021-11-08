@@ -23,7 +23,7 @@ public class Store {
     public Store() {
     }
 
-    public static void updateStoreList() {
+    public static String updateStoreList() {
         ArrayList<JSONObject> storeList = getStoreList();
         String url;
         InetAddress inetAddress;
@@ -31,7 +31,7 @@ public class Store {
         PostRequest postRequest = new PostRequest();
 
         if (storeList == null)
-            return;
+            return null;
 
         try {
             inetAddress = InetAddress.getLocalHost();
@@ -40,11 +40,10 @@ public class Store {
             for (JSONObject store : storeList) {
                 jsonStoreArray.put(store);
             }
-
-            postRequest.executeRequest(url, jsonStoreArray.toString());
+            return postRequest.executeRequest(url, jsonStoreArray.toString());
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            return;
+            return null;
         }
     }
 

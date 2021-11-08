@@ -33,6 +33,7 @@ public class GameDealController {
     @GetMapping("/deals/{id}")
     public ResponseEntity<?> fetchDealById(@PathVariable int id) {
         Optional<GameDeal> deal = gameDealRepository.findById(id);
+
         if (deal.isPresent())
             return new ResponseEntity<>(deal.get(), HttpStatus.valueOf(200));
         else

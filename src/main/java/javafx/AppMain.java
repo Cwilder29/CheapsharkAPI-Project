@@ -19,10 +19,11 @@ public class AppMain extends Application {
 
     @Override
     public void init() throws Exception {
-        // TODO Add all stores to the database?
-        LOGGER.info("Start of the program?");
-        Store.updateStoreList();
-        super.init();
+        String strResponse = Store.updateStoreList();
+        if (strResponse != null)
+            super.init();
+        else
+            LOGGER.warn("Could not update stores in database!");
     }
 
     @Override
