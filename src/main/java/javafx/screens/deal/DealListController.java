@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.model.DealParameters;
 import javafx.model.Deal;
 import javafx.model.Sort;
-import javafx.utils.Alerts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -107,7 +105,7 @@ public class DealListController implements Initializable, SelectedController {
         GetRequest request = new GetRequest();
         String strResponse;
 
-        LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getStoreId() + ")");
+        LOGGER.info("Selected store:" + dealParameters.getStore().getStoreName() + " (id:" + dealParameters.getStore().getId() + ")");
         strResponse = request.executeRequest(url, "");
 
         if (strResponse != null) {
@@ -123,7 +121,7 @@ public class DealListController implements Initializable, SelectedController {
 
     private String createGetRequest() {
         String url = "https://www.cheapshark.com/api/1.0/deals?";
-        url = url + "storeID=" + dealParameters.getStore().getStoreId();
+        url = url + "storeID=" + dealParameters.getStore().getId();
         url = url + "&upperPrice=" + dealParameters.getUpperPrice();
 
         if(!dealParameters.getTitle().isEmpty()) {

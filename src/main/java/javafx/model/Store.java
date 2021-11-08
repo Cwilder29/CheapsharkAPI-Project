@@ -1,16 +1,79 @@
 package javafx.model;
 
+import javafx.httpclient.GetRequest;
+import javafx.httpclient.PostRequest;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
 public class Store {
-    private int storeId;
+    private int id;
     private String storeName;
     private int storeActive;
 
-    public Store(int storeId, String storeName, int storeActive) {
-        this.storeId = storeId;
+    public Store(int id, String storeName, int storeActive) {
+        this.id = id;
         this.storeName = storeName;
         this.storeActive = storeActive;
+    }
+
+    public Store() {
+    }
+
+    public static void updateStoreList() {
+        ArrayList<JSONObject> storeList = getStoreList();
+        String url;
+        InetAddress inetAddress;
+        JSONArray jsonStoreArray = new JSONArray();
+        PostRequest postRequest = new PostRequest();
+
+        if (storeList == null)
+            return;
+
+        try {
+            inetAddress = InetAddress.getLocalHost();
+            url = "http://" + inetAddress.getHostAddress() + ":8080/stores";
+
+            for (JSONObject store : storeList) {
+                jsonStoreArray.put(store);
+            }
+
+            postRequest.executeRequest(url, jsonStoreArray.toString());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public static ArrayList<JSONObject> getStoreList() {
+        ArrayList<JSONObject> storeList = new ArrayList<>();
+        String url = "https://www.cheapshark.com/api/1.0/stores";
+        GetRequest getRequest = new GetRequest();
+        String strResponse;
+        JSONArray objResponse;
+        Store store;
+        JSONObject storeJSON;
+
+        strResponse = getRequest.executeRequest(url, "");
+        if (strResponse != null) {
+            objResponse = new JSONArray(strResponse);
+
+            for (Object json : objResponse) {
+                store = Store.fromJSONObject((JSONObject) json);
+
+                storeJSON = new JSONObject();
+                storeJSON.put("id", store.getId());
+                storeJSON.put("storeName", store.getStoreName());
+                storeJSON.put("storeActive", store.getStoreActive());
+                storeList.add(storeJSON);
+            }
+
+            return storeList;
+        }
+        return null;
     }
 
     public static Store fromJSONObject(JSONObject json) {
@@ -23,19 +86,18 @@ public class Store {
         }
     }
 
-
     @Override
     public String toString() {
         return storeName;
     }
 
     //accessors
-    public int getStoreId() {
-        return storeId;
+    public int getId() {
+        return id;
     }
 
-    public void setStoreId(int storeId) {
-        this.storeId = storeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStoreName() {
@@ -44,5 +106,13 @@ public class Store {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public int getStoreActive() {
+        return storeActive;
+    }
+
+    public void setStoreActive(int storeActive) {
+        this.storeActive = storeActive;
     }
 }

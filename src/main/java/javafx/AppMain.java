@@ -2,6 +2,7 @@ package javafx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.model.Store;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,12 +21,12 @@ public class AppMain extends Application {
     public void init() throws Exception {
         // TODO Add all stores to the database?
         LOGGER.info("Start of the program?");
+        Store.updateStoreList();
         super.init();
     }
 
     @Override
     public void stop() throws Exception {
-        // TODO Delete all stores in the database?
         super.stop();
     }
 

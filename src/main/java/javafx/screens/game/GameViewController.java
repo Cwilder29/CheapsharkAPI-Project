@@ -155,7 +155,7 @@ public class GameViewController implements Initializable, SelectedController {
 
         for (Store store : stores) {
             if (storeName.equals(store.getStoreName())) {
-                storeId = store.getStoreId();
+                storeId = store.getId();
             }
         }
 
@@ -207,7 +207,7 @@ public class GameViewController implements Initializable, SelectedController {
                 storeId = getDealWebsite((JSONObject) dealSite);
                 if (this.stores != null) {
                     for (Store store : this.stores) {
-                        if (storeId == store.getStoreId()) {
+                        if (storeId == store.getId()) {
                             fxStore.getItems().add(store.getStoreName());
                             break;
                         }

@@ -24,6 +24,7 @@ public class StoreController {
 
     @PostMapping("/stores")
     public ResponseEntity<?> insertStores(@RequestBody ArrayList<Store> stores) {
+        LOGGER.info(stores);
         storeRepository.saveAll(stores);
 
         return new ResponseEntity<>("", HttpStatus.valueOf(200));

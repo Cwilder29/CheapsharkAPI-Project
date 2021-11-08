@@ -16,7 +16,7 @@ public class Store {
     private String storeName;
 
     @Column(name = "active", nullable = false)
-    private boolean storeActive;
+    private int storeActive;
 
     public Store() {
     }
@@ -47,11 +47,11 @@ public class Store {
         this.storeName = storeName;
     }
 
-    public boolean isStoreActive() {
+    public int getStoreActive() {
         return storeActive;
     }
 
-    public void setStoreActive(boolean storeActive) {
+    public void setStoreActive(int storeActive) {
         this.storeActive = storeActive;
     }
 }
