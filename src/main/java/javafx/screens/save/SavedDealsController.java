@@ -47,7 +47,7 @@ public class SavedDealsController implements Initializable, SelectedController {
     @FXML
     private TableColumn<Deal, String> titleColumn;
     @FXML
-    private TableColumn<Store, String> storeColumn;
+    private TableColumn<Deal, Store> storeColumn;
     @FXML
     private Label deleteLabel;
 
@@ -143,7 +143,7 @@ public class SavedDealsController implements Initializable, SelectedController {
         savingsColumn.setCellValueFactory(new PropertyValueFactory<Deal, Double>("savings"));
         saleColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("salePrice"));
         retailColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("normalPrice"));
-        storeColumn.setCellValueFactory(new PropertyValueFactory<Store, String>("storeName"));
+        storeColumn.setCellValueFactory(new PropertyValueFactory<Deal, Store>("store"));
         // TODO Add store to table (database with store id from deal). And label text when deal is deleted successfully
 
         if (deals == null) {

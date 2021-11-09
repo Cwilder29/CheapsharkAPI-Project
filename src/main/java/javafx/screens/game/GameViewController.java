@@ -134,7 +134,7 @@ public class GameViewController implements Initializable, SelectedController {
         String strResponse = new GetRequest().executeRequest(url, "");
 
         if (strResponse != null)
-            this.gameDetails = new JSONObject(strResponse);
+            gameDetails = new JSONObject(strResponse);
     }
 
     private int getDealWebsite (JSONObject json) {
@@ -193,18 +193,18 @@ public class GameViewController implements Initializable, SelectedController {
         Store.retrieveStores(stores);
         int storeId;
 
-        viewGame(this.game);
+        viewGame(game);
 
         if (gameDetails != null) {
             JSONObject infoResponse = new JSONObject(gameDetails.getJSONObject("info").toString());
-            this.fxTitle.setText(infoResponse.getString("title"));
-            this.gameDeals = new JSONArray(gameDetails.getJSONArray("deals").toString());
+            fxTitle.setText(infoResponse.getString("title"));
+            gameDeals = new JSONArray(gameDetails.getJSONArray("deals").toString());
             LOGGER.info(gameDeals.toString());
 
             for (Object dealSite : this.gameDeals) {
                 storeId = getDealWebsite((JSONObject) dealSite);
-                if (this.stores != null) {
-                    for (Store store : this.stores) {
+                if (stores != null) {
+                    for (Store store : stores) {
                         if (storeId == store.getId()) {
                             fxStore.getItems().add(store.getStoreName());
                             break;

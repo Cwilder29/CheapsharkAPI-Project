@@ -1,5 +1,6 @@
 package javafx.model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Deal {
@@ -20,7 +21,7 @@ public class Deal {
     private Store store;
 
     public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
-                int metacriticRating, int steamRating, int storeId, int gameId, String imageLink, int databaseId) {
+                int metacriticRating, int steamRating, int gameId, String imageLink, int databaseId, Store store) {
         this.title = title;
         this.dealId = dealId;
         this.salePrice = salePrice;
@@ -28,10 +29,10 @@ public class Deal {
         this.savings = savings;
         this.metacriticRating = metacriticRating;
         this.steamRating = steamRating;
-        this.storeId = storeId;
         this.gameId = gameId;
         this.imageLink = imageLink;
         this.databaseId = databaseId;
+        this.store = store;
     }
 
     public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
@@ -62,12 +63,16 @@ public class Deal {
     }
 
     public static Deal fromJSONObjectDatabase(JSONObject json) {
+        JSONObject storeJSON = new JSONObject(json.getJSONObject("store").toString());
+
         try {
+            Store store = Store.fromJSONObjectDatabase(storeJSON);
+
             Deal deal = new Deal(json.getString("title"), json.getString("dealID"),
                     json.getFloat("salePrice"), json.getFloat("normalPrice"),
                     json.getDouble("savings"), json.getInt("metacriticScore"),
-                    json.getInt("steamRatingPercent"), json.getInt("storeID"),
-                    json.getInt("gameID"), json.getString("thumb"), json.getInt("id"));
+                    json.getInt("steamRatingPercent"), json.getInt("gameID"), json.getString("thumb"),
+                    json.getInt("id"), store);
             return deal;
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to parse gameDeal from provided json:\n " + json.toString());
