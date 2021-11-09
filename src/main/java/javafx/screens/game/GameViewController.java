@@ -18,7 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import javafx.screens.MainController;
 import javafx.screens.SelectedController;
-import javafx.screens.RetrieveStores;
 import javafx.screens.screentypes.GameListScreen;
 
 import java.io.IOException;
@@ -45,12 +44,11 @@ public class GameViewController implements Initializable, SelectedController {
     private Label fxSave;
 
     private Game game;
-    private ArrayList<Store> stores;
+    private ArrayList<Store> stores = new ArrayList<>();
     private JSONObject gameDetails;
     private JSONArray gameDeals;
     private String dealId;
     private String previousSearch;
-    private int statusCode;
 
     public GameViewController(Game game, String previousSearch) {
         this.game = game;
@@ -192,7 +190,7 @@ public class GameViewController implements Initializable, SelectedController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.stores = RetrieveStores.retrieveStores();
+        Store.retrieveStores(stores);
         int storeId;
 
         viewGame(this.game);
@@ -221,7 +219,7 @@ public class GameViewController implements Initializable, SelectedController {
             getGamePrices();
         }
         else {
-            Alerts.infoAlert("Error!", "Could not load game information from CheapShark: " + statusCode);
+            Alerts.infoAlert("Error!", "Could not load game information from CheapShark!");
         }
     }
 }

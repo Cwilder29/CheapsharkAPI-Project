@@ -75,6 +75,33 @@ public class Store {
         return null;
     }
 
+    public static void retrieveStores(ArrayList<Store> stores) {
+        InetAddress inetAddress = null;
+        String strResponse;
+        JSONArray objResponse;
+
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            stores = null;
+            return;
+        }
+
+        String url = "http://" + inetAddress.getHostAddress() + ":8080/stores";
+
+        strResponse = new GetRequest().executeRequest(url, "");
+        if (strResponse != null) {
+            objResponse = new JSONArray(strResponse);
+
+            for (Object store : objResponse) {
+                stores.add(Store.fromJSONObjectDatabase((JSONObject) store));
+            }
+        }
+        else
+            stores = null;
+    }
+
     public static Store fromJSONObject(JSONObject json) {
         try {
             Store store = new Store(json.getInt("storeID"), json.getString("storeName"), json.getInt("isActive"));
