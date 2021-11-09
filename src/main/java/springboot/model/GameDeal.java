@@ -25,8 +25,8 @@ public class GameDeal {
     @Column(name = "normal_price", nullable = false)
     private float normalPrice;
 
-    @Column(name = "store_id", nullable = false)
-    private int storeID;
+//    @Column(name = "store_id", nullable = false)
+//    private int storeID;
 
     @Column(name = "savings", nullable = true)
     private float savings;
@@ -40,6 +40,10 @@ public class GameDeal {
     @Column(name = "thumb", nullable = true)
     private String thumb;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
     public GameDeal() {
     }
 
@@ -52,11 +56,11 @@ public class GameDeal {
                 ", title='" + title + '\'' +
                 ", salePrice=" + salePrice +
                 ", normalPrice=" + normalPrice +
-                ", storeID=" + storeID +
                 ", savings=" + savings +
                 ", metacriticScore=" + metacriticScore +
                 ", steamRatingPercent=" + steamRatingPercent +
                 ", thumb='" + thumb + '\'' +
+                ", store=" + store +
                 '}';
     }
 
@@ -109,12 +113,12 @@ public class GameDeal {
         this.normalPrice = normalPrice;
     }
 
-    public int getStoreID() {
-        return storeID;
+    public Store getStore() {
+        return store;
     }
 
-    public void setStoreID(int storeID) {
-        this.storeID = storeID;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     public float getSavings() {

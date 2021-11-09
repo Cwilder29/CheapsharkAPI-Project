@@ -102,6 +102,28 @@ public class Store {
             stores = null;
     }
 
+    public Store retrieveStore(int storeId) {
+        InetAddress inetAddress = null;
+        String strResponse;
+        JSONObject objResponse;
+
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String url = "http://" + inetAddress.getHostAddress() + ":8080/stores/" + storeId;
+        strResponse = new GetRequest().executeRequest(url, "");
+        if (strResponse != null) {
+            objResponse = new JSONObject(strResponse);
+            return fromJSONObjectDatabase(objResponse);
+        }
+        else
+            return null;
+    }
+
     public static Store fromJSONObject(JSONObject json) {
         try {
             Store store = new Store(json.getInt("storeID"), json.getString("storeName"), json.getInt("isActive"));

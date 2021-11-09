@@ -2,6 +2,8 @@ package javafx.screens.save;
 
 import javafx.httpclient.DeleteRequest;
 import javafx.httpclient.GetRequest;
+import javafx.model.Store;
+import javafx.scene.control.Label;
 import javafx.utils.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,18 +38,20 @@ public class SavedDealsController implements Initializable, SelectedController {
 
     @FXML
     private TableView<Deal> dealTable;
-
     @FXML
     private TableColumn<Deal, Float> retailColumn;
-
     @FXML
     private TableColumn<Deal, Float> saleColumn;
-
     @FXML
     private TableColumn<Deal, Double> savingsColumn;
-
     @FXML
     private TableColumn<Deal, String> titleColumn;
+    @FXML
+    private TableColumn<Store, String> storeColumn;
+    @FXML
+    private Label deleteLabel;
+
+    private ArrayList<Store> stores = new ArrayList<>();
 
     @FXML
     void clickGame(MouseEvent event) {
@@ -133,10 +137,14 @@ public class SavedDealsController implements Initializable, SelectedController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Deal> deals = fetchSavedDeals();
+        Store.retrieveStores(stores);
+
         titleColumn.setCellValueFactory(new PropertyValueFactory<Deal, String>("title"));
         savingsColumn.setCellValueFactory(new PropertyValueFactory<Deal, Double>("savings"));
         saleColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("salePrice"));
         retailColumn.setCellValueFactory(new PropertyValueFactory<Deal, Float>("normalPrice"));
+        storeColumn.setCellValueFactory(new PropertyValueFactory<Store, String>("storeName"));
+        // TODO Add store to table (database with store id from deal). And label text when deal is deleted successfully
 
         if (deals == null) {
             Alerts.infoAlert("Error!", "Could not load saved deals!");

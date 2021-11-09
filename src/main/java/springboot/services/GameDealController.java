@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.model.GameDeal;
 import springboot.repository.GameDealRepository;
+import springboot.repository.StoreRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,11 @@ public class GameDealController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private GameDealRepository gameDealRepository;
+    private StoreRepository storeRepository;
 
-    public GameDealController(GameDealRepository gameDealRepository) {
+    public GameDealController(GameDealRepository gameDealRepository, StoreRepository storeRepository) {
         this.gameDealRepository = gameDealRepository;
+        this.storeRepository = storeRepository;
     }
 
     @GetMapping("/deals")

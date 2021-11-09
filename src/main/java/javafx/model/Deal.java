@@ -17,6 +17,8 @@ public class Deal {
 
     private int databaseId;
 
+    private Store store;
+
     public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
                 int metacriticRating, int steamRating, int storeId, int gameId, String imageLink, int databaseId) {
         this.title = title;
@@ -148,6 +150,14 @@ public class Deal {
 
     public void setStoreId(int storeId) {
         this.storeId = storeId;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     public int getGameId() {

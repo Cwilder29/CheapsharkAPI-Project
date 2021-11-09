@@ -1,9 +1,7 @@
 package springboot.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "stores")
@@ -17,6 +15,9 @@ public class Store {
 
     @Column(name = "active", nullable = false)
     private int storeActive;
+
+    @OneToMany(mappedBy = "store")
+    private Set<GameDeal> gameDeals;
 
     public Store() {
     }

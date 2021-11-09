@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,15 +13,17 @@
          <children>
             <TableView fx:id="dealTable" onMouseClicked="#clickGame" prefHeight="360.0" prefWidth="600.0">
                <columns>
-                  <TableColumn fx:id="titleColumn" prefWidth="337.0" text="Title" />
-                  <TableColumn fx:id="savingsColumn" minWidth="0.0" prefWidth="65.0" text="Savings" />
-                  <TableColumn fx:id="saleColumn" minWidth="0.0" prefWidth="99.0" text="Sale Price" />
-                  <TableColumn fx:id="retailColumn" prefWidth="98.0" text="Retail Price" />
+                  <TableColumn fx:id="titleColumn" prefWidth="230.0" text="Title" />
+                  <TableColumn fx:id="storeColumn" prefWidth="83.0" text="Store" />
+                  <TableColumn fx:id="savingsColumn" minWidth="0.0" prefWidth="85.0" text="Savings" />
+                  <TableColumn fx:id="saleColumn" minWidth="0.0" prefWidth="94.0" text="Sale Price" />
+                  <TableColumn fx:id="retailColumn" prefWidth="107.0" text="Retail Price" />
                </columns>
             </TableView>
             <Button layoutX="470.0" layoutY="367.0" mnemonicParsing="false" onAction="#exit" text="Return to Main Menu" />
             <Button layoutY="367.0" mnemonicParsing="false" onAction="#nextPage" text="Next Page" />
             <Button layoutX="80.0" layoutY="367.0" mnemonicParsing="false" onAction="#deleteDeal" text="Delete" />
+            <Label fx:id="deleteLabel" layoutX="140.0" layoutY="371.0" />
          </children>
       </AnchorPane>
    </center>
