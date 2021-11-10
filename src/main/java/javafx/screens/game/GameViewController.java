@@ -103,13 +103,17 @@ public class GameViewController implements Initializable, SelectedController {
         url = "http://" + ip + ":8080/deals";
 
         JSONObject dealData = new JSONObject();
+        JSONObject storeData = new JSONObject();
+
+        storeData.put("id",lookupData.getInt("storeID"));
 
         dealData.put("title", lookupData.getString("name"));
         dealData.put("dealID", dealId);
         dealData.put("salePrice", lookupData.getFloat("salePrice"));
         dealData.put("normalPrice", lookupData.getFloat("retailPrice"));
         dealData.put("gameID", game.getGameId());
-        dealData.put("storeID", lookupData.getInt("storeID"));
+        //dealData.put("store", lookupData.getInt("storeID"));
+        dealData.put("store", storeData);
         dealData.put("savings", game.getSavings());
         dealData.put("metacriticScore", lookupData.getInt("metacriticScore"));
         dealData.put("steamRatingPercent", lookupData.getInt("steamRatingPercent"));

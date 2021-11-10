@@ -4,6 +4,7 @@ import javafx.httpclient.DeleteRequest;
 import javafx.httpclient.GetRequest;
 import javafx.model.Store;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.utils.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -101,6 +102,8 @@ public class SavedDealsController implements Initializable, SelectedController {
 
         if (strResponse != null) {
             dealTable.getItems().remove(selectedDeal);
+            deleteLabel.setText("Deal deleted!");
+            deleteLabel.setTextFill(Color.web("#38BC00"));
         }
     }
 

@@ -25,9 +25,6 @@ public class GameDeal {
     @Column(name = "normal_price", nullable = false)
     private float normalPrice;
 
-//    @Column(name = "store_id", nullable = false)
-//    private int storeID;
-
     @Column(name = "savings", nullable = true)
     private float savings;
 

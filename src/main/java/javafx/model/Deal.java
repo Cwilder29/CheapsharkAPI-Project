@@ -21,6 +21,21 @@ public class Deal {
     private Store store;
 
     public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
+                int metacriticRating, int steamRating, int storeId, int gameId, String imageLink) {
+        this.title = title;
+        this.dealId = dealId;
+        this.salePrice = salePrice;
+        this.normalPrice = normalPrice;
+        this.savings = savings;
+        this.metacriticRating = metacriticRating;
+        this.steamRating = steamRating;
+        this.storeId = storeId;
+        this.gameId = gameId;
+        this.imageLink = imageLink;
+    }
+
+    // Used for deal objects stored in database
+    public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
                 int metacriticRating, int steamRating, int gameId, String imageLink, int databaseId, Store store) {
         this.title = title;
         this.dealId = dealId;
@@ -33,20 +48,6 @@ public class Deal {
         this.imageLink = imageLink;
         this.databaseId = databaseId;
         this.store = store;
-    }
-
-    public Deal(String title, String dealId, float salePrice, float normalPrice, double savings,
-                int metacriticRating, int steamRating, int storeId, int gameId, String imageLink) {
-        this.title = title;
-        this.dealId = dealId;
-        this.salePrice = salePrice;
-        this.normalPrice = normalPrice;
-        this.savings = savings;
-        this.metacriticRating = metacriticRating;
-        this.steamRating = steamRating;
-        this.storeId = storeId;
-        this.gameId = gameId;
-        this.imageLink = imageLink;
     }
 
     public static Deal fromJSONObject(JSONObject json) {

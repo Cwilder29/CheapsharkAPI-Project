@@ -84,12 +84,17 @@ public class DealViewController implements Initializable, SelectedController {
         String url = "http://" + ip + ":8080/deals";
 
         JSONObject dealData = new JSONObject();
+        JSONObject storeData = new JSONObject();
+
+        storeData.put("id",deal.getStoreId());
+
         dealData.put("title", deal.getTitle());
         dealData.put("dealID", deal.getDealId());
         dealData.put("salePrice", deal.getSalePrice());
         dealData.put("normalPrice", deal.getNormalPrice());
         dealData.put("gameID", deal.getGameId());
-        dealData.put("storeID", deal.getStoreId());
+//        dealData.put("storeID", deal.getStoreId());
+        dealData.put("store", storeData);
         dealData.put("savings", deal.getSavings());
         dealData.put("metacriticScore", deal.getMetacriticRating());
         dealData.put("steamRatingPercent", deal.getSteamRating());

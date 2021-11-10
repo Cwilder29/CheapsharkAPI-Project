@@ -51,6 +51,7 @@ public class GameDealController {
         existingDeal = gameDealRepository.findGameDealByDealID(newDeal.getDealID());
 
         if (existingDeal.isEmpty()) {
+            LOGGER.info("Adding deal to database...");
             GameDeal savedDeal = gameDealRepository.save(newDeal);
             return new ResponseEntity<>(savedDeal.getId(), HttpStatus.valueOf(200));
         }
